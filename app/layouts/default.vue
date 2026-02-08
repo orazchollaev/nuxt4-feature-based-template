@@ -1,7 +1,7 @@
 <template>
+  <layout-header />
   <div>
-    <NuxtLink to="/">Home</NuxtLink>
-    <NuxtLink to="/bookmark">Bookmarks</NuxtLink>
+    <slot></slot>
   </div>
-  <slot></slot>
+  <layout-footer />
 </template>

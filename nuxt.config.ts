@@ -6,4 +6,6 @@ export default defineNuxtConfig({
     port: 1010,
     host: "0.0.0.0",
   },
+
+  modules: ["@pinia/nuxt"],
 });
