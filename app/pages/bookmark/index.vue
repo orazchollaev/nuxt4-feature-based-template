@@ -1,7 +1,6 @@
-<script setup lang="ts">
-import { BookmarkList } from "~/features/bookmark";
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <BookmarkList />
+  <h1>Bookmark</h1>
+  <f-bookmark-list />
 </template>

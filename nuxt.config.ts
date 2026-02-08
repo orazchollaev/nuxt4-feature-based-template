@@ -8,4 +8,30 @@ export default defineNuxtConfig({
   },
 
   modules: ["@pinia/nuxt"],
+  components: [
+    {
+      path: "~/components",
+    },
+    {
+      path: "~/features",
+      pattern: "**/components",
+      prefix: "f",
+      pathPrefix: false,
+    },
+  ],
+
+  imports: {
+    dirs: [
+      // Global auto-imports
+      "composables/**",
+      "stores/**",
+      "utils/**",
+
+      // Feature-based auto-imports
+      "features/*/composables/**",
+      "features/*/stores/**",
+      "features/*/utils/**",
+      "features/*/types/**",
+    ],
+  },
 });
