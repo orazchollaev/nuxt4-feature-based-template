@@ -1,5 +1,5 @@
 {
-  "name": "feature-based",
+  "name": "nuxt4-feature-based-template",
   "type": "module",
   "private": true,
   "scripts": {
@@ -10,7 +10,9 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.11.3",
     "nuxt": "^4.3.1",
+    "pinia": "^3.0.4",
     "vue": "^3.5.27",
     "vue-router": "^4.6.4"
   }
