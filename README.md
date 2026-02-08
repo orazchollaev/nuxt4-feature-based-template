@@ -2,6 +2,12 @@
 
 A clean and organized Nuxt 4 starter template with feature-based architecture.
 
+## 🎯 Why Feature-Based?
+
+- Better scalability
+- Easier to maintain
+- Team collaboration friendly
+
 ## 📁 Project Structure
 
 ```
@@ -50,14 +56,16 @@ shared/                 # Shared scritps
 
 ### Installation
 
-1. Clone the repository:
+1. Click the "Use this template" button at the top of this page
+2. Create your new repository
+3. Clone your new repository:
 
 ```bash
-git clone <your-repo-url>
-cd <project-name>
+git clone https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
+cd YOUR-REPO-NAME
 ```
 
-2. Install dependencies:
+4. Install dependencies:
 
 ```bash
 npm install
@@ -67,7 +75,7 @@ yarn install
 pnpm install
 ```
 
-3. Start development server:
+5. Start development server:
 
 ```bash
 npm run dev
@@ -110,9 +118,9 @@ app/features/bookmark/
 ├── components/
 │   └── BookmarkList.vue   # Auto-imported as <f-bookmark-list />
 ├── composables/
-│   ├── useBookmark.ts     # Bookmark composable
+│   ├── useBookmark.ts     # Bookmark composable (Auto import)
 ├── stores/
-│   └── bookmark.ts        # Bookmark store (Pinia)
+│   └── bookmark.ts        # Bookmark store (Pinia) (Auto import)
 ├── types/
 │   └── index.ts           # TypeScript interfaces/types
 ├── utils/
@@ -121,40 +129,8 @@ app/features/bookmark/
 │   └── api.ts             # API calls
 ├── constants/
 │    └── index.ts          # Constants
-└── index.ts               # Exports
 
-# Pages are located in app/pages/ NOT in features
-app/pages/
-└── bookmark/
-    └── index.vue          # /bookmark route
 ```
-
-### Using Feature Components
-
-Feature components are **auto-imported** by Nuxt. No manual imports are required.
-
-```vue
-<template>
-  <f-bookmark-list />
-</template>
-```
-
-app/features/bookmark/
-├── components/
-│ └── List.vue # <f-bookmark-list /> olarak auto-import edilir
-├── composables/
-│ ├── useBookmark.ts # Bookmark composable
-├── stores/
-│ └── bookmark.ts # Bookmark store (Pinia)
-├── types/
-│ └── index.ts # TypeScript interfaces/types
-├── utils/
-│ └── helpers.ts # Utility functions
-├── services/
-│ └── api.ts # API calls
-├── constants/
-│ └── index.ts # Constants
-└── index.ts # Exports
 
 # Pages are located in app/pages/ NOT in features
 
@@ -162,11 +138,9 @@ app/pages/
 └── bookmark/
 └── index.vue # /bookmark route
 
-```
-
 ### Using Feature Components
 
-vue
+```vue
 <template>
   <f-bookmark-list />
 </template>
