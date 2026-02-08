@@ -4,13 +4,15 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A clean and organized Nuxt 4 starter template with feature-based architecture.
+A clean and organized Nuxt 4 starter template with feature-based architecture and smart component naming.
 
 ## 🎯 Why Feature-Based?
 
 - Better scalability
 - Easier to maintain
 - Team collaboration friendly
+- Clear feature boundaries
+- Modular and reusable code
 
 ## ✨ Features
 
@@ -19,11 +21,12 @@ A clean and organized Nuxt 4 starter template with feature-based architecture.
 - 🔧 **Nuxt 4** - Latest Nuxt version with best practices
 - 📝 **TypeScript support** - Type-safe development
 - 🎨 **Auto-imports** - Components and composables auto-imported
+- 🏷️ **Smart naming** - Feature components auto-prefixed (e.g., `<f-bookmark-list />`)
+- 🧩 **Clean config** - Modular configuration with separated hooks
 
 ## 📁 Project Structure
 
 ```
-
 app/
 ├── features/
 │   └── bookmark/           # Feature modules
@@ -44,11 +47,12 @@ app/
 ├── middleware/             # Route middleware
 ├── plugins/                # Nuxt plugins
 ├── assets/                 # Styles, fonts, images
-public/                 # Static files
-server/                 # Server API routes
-shared/                 # Shared scritps
-
-
+config/                     # Configuration files
+├── hooks/                  # Nuxt hooks
+│   └── components.ts       # Component naming hook
+public/                     # Static files
+server/                     # Server API routes
+shared/                     # Shared scripts
 ```
 
 ## 🚀 Getting Started
@@ -113,41 +117,95 @@ app/pages/your-feature/
 
 3. Add your components, composables, stores, and other feature-specific code inside the feature folder.
 
-4. That's it! Nuxt will auto-import everything.
+4. That's it! Nuxt will auto-import everything with smart naming.
 
 ### Example Feature Structure
 
 ```
 app/features/bookmark/
 ├── components/
-│   └── BookmarkList.vue   # Auto-imported as <f-bookmark-list />
+│   ├── List.vue           # Auto-imported as <f-bookmark-list />
+│   ├── Item.vue           # Auto-imported as <f-bookmark-item />
+│   └── Form.vue           # Auto-imported as <f-bookmark-form />
 ├── composables/
-│   ├── useBookmark.ts     # Bookmark composable (Auto import)
+│   └── useBookmark.ts     # Auto-imported composable
 ├── stores/
-│   └── bookmark.ts        # Bookmark store (Pinia) (Auto import)
+│   └── bookmark.ts        # Pinia store (Auto-imported)
 ├── types/
 │   └── index.ts           # TypeScript interfaces/types
 ├── utils/
 │   └── helpers.ts         # Utility functions
 ├── services/
 │   └── api.ts             # API calls
-├── constants/
-│    └── index.ts          # Constants
-
+└── constants/
+    └── index.ts           # Constants
 ```
 
-# Pages are located in app/pages/ NOT in features
+**Pages are located in `app/pages/` NOT in features:**
 
+```
 app/pages/
 └── bookmark/
-└── index.vue # /bookmark route
+    └── index.vue          # /bookmark route
+```
 
-### Using Feature Components
+### Component Naming Convention
+
+Feature components are automatically prefixed with `f-{featureName}-`:
+
+```vue
+<!-- app/features/bookmark/components/List.vue -->
+<template>
+  <div>Bookmark List</div>
+</template>
+```
+
+**Usage in any component:**
 
 ```vue
 <template>
-  <f-bookmark-list />
+  <div>
+    <!-- Automatically imports as f-bookmark-list -->
+    <f-bookmark-list />
+
+    <!-- Other feature components -->
+    <f-bookmark-item />
+    <f-bookmark-form />
+  </div>
 </template>
+```
+
+**Shared components** (in `app/components/`) don't have the `f-` prefix:
+
+```vue
+<!-- app/components/Button.vue -->
+<template>
+  <button>Click me</button>
+</template>
+
+<!-- Usage -->
+<template>
+  <Button />
+  <!-- No prefix for shared components -->
+</template>
+```
+
+### Using Feature Composables
+
+```vue
+<script setup lang="ts">
+// Auto-imported from app/features/bookmark/composables/useBookmark.ts
+const { bookmarks, addBookmark } = useBookmark();
+</script>
+```
+
+### Using Feature Stores
+
+```vue
+<script setup lang="ts">
+// Auto-imported from app/features/bookmark/stores/bookmark.ts
+const bookmarkStore = useBookmarkStore();
+</script>
 ```
 
 ## 🛠️ Available Scripts
@@ -171,23 +229,42 @@ npm run generate
 ### Feature-Based Directories
 
 - **`features/`** - Feature modules with their own components, composables, stores, types, utils, services, and constants
+- **`config/`** - Configuration files and hooks
 
 ### Nuxt 4 Standard Directories
 
 - **`pages/`** - File-based routing (creates routes automatically)
-- **`components/`** - Auto-imported Vue components
-- **`composables/`** - Auto-imported composition functions
+- **`components/`** - Shared auto-imported Vue components
+- **`composables/`** - Shared auto-imported composition functions
 - **`layouts/`** - Layout components (default, custom, etc.)
 - **`middleware/`** - Route middleware (auth, guards, etc.)
 - **`plugins/`** - Nuxt plugins (runs before app initialization)
 - **`server/`** - Server-side API routes and middleware
 - **`assets/`** - Uncompiled assets (CSS, SCSS, images)
 - **`public/`** - Static files served at root (favicon, robots.txt)
-- **`stores/`** - Pinia stores (state management)
+- **`stores/`** - Global Pinia stores (state management)
 - **`types/`** - Global TypeScript type definitions
-- **`utils/`** - Auto-imported utility functions
+- **`utils/`** - Global auto-imported utility functions
 
 For more information, see the [Nuxt 4 Directory Structure Documentation](https://nuxt.com/docs/guide/directory-structure).
+
+## ⚙️ Configuration
+
+The project uses a modular configuration approach:
+
+### Main Config (`nuxt.config.ts`)
+
+Clean and readable main configuration file.
+
+### Component Naming Hook (`config/hooks/components.ts`)
+
+Handles automatic feature-based component naming:
+
+- Extracts feature name from file path
+- Generates kebab-case component names
+- Prefixes with `f-{featureName}-`
+
+You can modify this hook to customize the naming convention.
 
 ## 🤝 Contributing
 
@@ -201,11 +278,48 @@ For more information, see the [Nuxt 4 Directory Structure Documentation](https:/
 
 After creating your project from this template:
 
-- [ ] Update package.json (name, description, author)
-- [ ] Update README.md with your project info
+- [ ] Update `package.json` (name, description, author)
+- [ ] Update `README.md` with your project info
 - [ ] Remove example bookmark feature (if not needed)
 - [ ] Add your own features
-- [ ] Update LICENSE file
+- [ ] Update `LICENSE` file
+- [ ] Customize component naming in `config/hooks/components.ts` (optional)
+- [ ] Update dev server port in `nuxt.config.ts` (optional)
+
+## 💡 Tips & Best Practices
+
+### When to Use Features vs Shared
+
+**Use Features when:**
+
+- Code is specific to a business domain (e.g., bookmarks, auth, blog)
+- Components/logic are unlikely to be reused across different features
+- You want to keep related code together
+
+**Use Shared when:**
+
+- Components are truly generic (Button, Modal, Card)
+- Utilities are used across multiple features
+- Composables provide cross-cutting concerns (useApi, useFetch)
+
+### Feature Organization
+
+Each feature should be self-contained and follow this structure:
+
+- Keep feature-specific code inside the feature folder
+- Pages always go in `app/pages/` (Nuxt routing requirement)
+- Shared code goes in root `components/`, `composables/`, etc.
+
+### Component Naming
+
+Feature components automatically get prefixed:
+
+```
+app/features/auth/components/LoginForm.vue → <f-auth-login-form />
+app/features/blog/components/PostCard.vue → <f-blog-post-card />
+```
+
+This prevents naming conflicts and makes it clear which feature a component belongs to.
 
 ## 📄 License
 
@@ -215,7 +329,16 @@ MIT License - feel free to use this template for your projects!
 
 - Built with [Nuxt 4](https://nuxt.com/)
 - Inspired by feature-based architecture patterns
+- Component naming system for better DX
 
 ---
 
 ⭐ If you find this template helpful, please give it a star!
+
+## 📞 Support
+
+If you have any questions or need help, feel free to:
+
+- Open an issue
+- Start a discussion
+- Check out the [Nuxt documentation](https://nuxt.com/docs)
