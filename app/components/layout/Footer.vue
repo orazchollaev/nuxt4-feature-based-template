@@ -1,3 +1,5 @@
 <template>
-  <footer>Nuxt 4 Feature Based Template</footer>
+  <footer>
+    <p>© {{ new Date().getFullYear() }} Oraz Chollaev</p>
+  </footer>
 </template>

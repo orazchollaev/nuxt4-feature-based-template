@@ -1,5 +1,6 @@
 {
   "name": "nuxt4-feature-based-template",
+  "version": "1.1.0",
   "type": "module",
   "private": true,
   "scripts": {
@@ -15,5 +16,9 @@
     "pinia": "^3.0.4",
     "vue": "^3.5.27",
     "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.2.4"
   }
 }

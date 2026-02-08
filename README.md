@@ -108,25 +108,68 @@ app/pages/your-feature/
 ```
 app/features/bookmark/
 ├── components/
-│   └── List.vue          # Bookmark list component
+│   └── BookmarkList.vue   # Auto-imported as <f-bookmark-list />
 ├── composables/
-│   ├── useBookmark.ts    # Bookmark composable
+│   ├── useBookmark.ts     # Bookmark composable
 ├── stores/
-│   └── bookmark.ts       # Bookmark store (Pinia)
+│   └── bookmark.ts        # Bookmark store (Pinia)
 ├── types/
-│   └── index.ts          # TypeScript interfaces/types
+│   └── index.ts           # TypeScript interfaces/types
 ├── utils/
-│   └── helpers.ts        # Utility functions
+│   └── helpers.ts         # Utility functions
 ├── services/
-│   └── api.ts            # API calls
+│   └── api.ts             # API calls
 ├── constants/
-│    └── index.ts         # Constants
-└── index.ts              # Exports
+│    └── index.ts          # Constants
+└── index.ts               # Exports
 
 # Pages are located in app/pages/ NOT in features
 app/pages/
 └── bookmark/
-    └── index.vue         # /bookmark route
+    └── index.vue          # /bookmark route
+```
+
+### Using Feature Components
+
+Feature components are **auto-imported** by Nuxt. No manual imports are required.
+
+```vue
+<template>
+  <f-bookmark-list />
+</template>
+```
+
+app/features/bookmark/
+├── components/
+│ └── List.vue # <f-bookmark-list /> olarak auto-import edilir
+├── composables/
+│ ├── useBookmark.ts # Bookmark composable
+├── stores/
+│ └── bookmark.ts # Bookmark store (Pinia)
+├── types/
+│ └── index.ts # TypeScript interfaces/types
+├── utils/
+│ └── helpers.ts # Utility functions
+├── services/
+│ └── api.ts # API calls
+├── constants/
+│ └── index.ts # Constants
+└── index.ts # Exports
+
+# Pages are located in app/pages/ NOT in features
+
+app/pages/
+└── bookmark/
+└── index.vue # /bookmark route
+
+```
+
+### Using Feature Components
+
+vue
+<template>
+  <f-bookmark-list />
+</template>
 ```
 
 ## 🛠️ Available Scripts

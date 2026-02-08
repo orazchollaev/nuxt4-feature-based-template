@@ -1,5 +1,9 @@
+// app/features/bookmark/composables/useBookmark.ts
 export const useBookmark = () => {
-  const list = ["Hello", "World"];
+  const store = useBookmarkStore();
 
-  return { list };
+  return {
+    bookmarks: store.bookmarks,
+    addBookmark: store.addBookmark,
+  };
 };
