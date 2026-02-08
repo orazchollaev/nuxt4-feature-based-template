@@ -35,4 +35,6 @@ export default defineNuxtConfig({
       "features/*/types/**",
     ],
   },
+
+  css: ["~/assets/index.css"],
 });
