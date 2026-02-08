@@ -21,7 +21,7 @@ A clean and organized Nuxt 4 starter template with feature-based architecture an
 - 🔧 **Nuxt 4** - Latest Nuxt version with best practices
 - 📝 **TypeScript support** - Type-safe development
 - 🎨 **Auto-imports** - Components and composables auto-imported
-- 🏷️ **Smart naming** - Feature components auto-prefixed (e.g., `<f-bookmark-list />`)
+- 🏷️ **Smart naming** - Feature components auto-prefixed (e.g., `<f-todo-list />`)
 - 🧩 **Clean config** - Modular configuration with separated hooks
 
 ## 📁 Project Structure
@@ -29,7 +29,7 @@ A clean and organized Nuxt 4 starter template with feature-based architecture an
 ```
 app/
 ├── features/
-│   └── bookmark/           # Feature modules
+│   └── todo/           # Feature modules
 │       ├── components/     # Feature-specific components
 │       ├── composables/    # Feature-specific composables
 │       ├── stores/         # Feature-specific stores (Pinia)
@@ -122,15 +122,15 @@ app/pages/your-feature/
 ### Example Feature Structure
 
 ```
-app/features/bookmark/
+app/features/todo/
 ├── components/
-│   ├── List.vue           # Auto-imported as <f-bookmark-list />
-│   ├── Item.vue           # Auto-imported as <f-bookmark-item />
-│   └── Form.vue           # Auto-imported as <f-bookmark-form />
+│   ├── List.vue           # Auto-imported as <f-todo-list />
+│   ├── Item.vue           # Auto-imported as <f-todo-item />
+│   └── Form.vue           # Auto-imported as <f-todo-form />
 ├── composables/
-│   └── useBookmark.ts     # Auto-imported composable
+│   └── useTodo.ts     # Auto-imported composable
 ├── stores/
-│   └── bookmark.ts        # Pinia store (Auto-imported)
+│   └── todo.ts        # Pinia store (Auto-imported)
 ├── types/
 │   └── index.ts           # TypeScript interfaces/types
 ├── utils/
@@ -145,8 +145,8 @@ app/features/bookmark/
 
 ```
 app/pages/
-└── bookmark/
-    └── index.vue          # /bookmark route
+└── todo/
+    └── index.vue          # /todo route
 ```
 
 ### Component Naming Convention
@@ -154,9 +154,9 @@ app/pages/
 Feature components are automatically prefixed with `f-{featureName}-`:
 
 ```vue
-<!-- app/features/bookmark/components/List.vue -->
+<!-- app/features/todo/components/List.vue -->
 <template>
-  <div>Bookmark List</div>
+  <div>Todo List</div>
 </template>
 ```
 
@@ -165,12 +165,12 @@ Feature components are automatically prefixed with `f-{featureName}-`:
 ```vue
 <template>
   <div>
-    <!-- Automatically imports as f-bookmark-list -->
-    <f-bookmark-list />
+    <!-- Automatically imports as f-todo-list -->
+    <f-todo-list />
 
     <!-- Other feature components -->
-    <f-bookmark-item />
-    <f-bookmark-form />
+    <f-todo-item />
+    <f-todo-form />
   </div>
 </template>
 ```
@@ -194,8 +194,8 @@ Feature components are automatically prefixed with `f-{featureName}-`:
 
 ```vue
 <script setup lang="ts">
-// Auto-imported from app/features/bookmark/composables/useBookmark.ts
-const { bookmarks, addBookmark } = useBookmark();
+// Auto-imported from app/features/todo/composables/useTodo.ts
+const { todos, addTodo } = useTodo();
 </script>
 ```
 
@@ -203,8 +203,8 @@ const { bookmarks, addBookmark } = useBookmark();
 
 ```vue
 <script setup lang="ts">
-// Auto-imported from app/features/bookmark/stores/bookmark.ts
-const bookmarkStore = useBookmarkStore();
+// Auto-imported from app/features/todo/stores/todo.ts
+const todoStore = useTodoStore();
 </script>
 ```
 
@@ -280,7 +280,7 @@ After creating your project from this template:
 
 - [ ] Update `package.json` (name, description, author)
 - [ ] Update `README.md` with your project info
-- [ ] Remove example bookmark feature (if not needed)
+- [ ] Remove example todo feature (if not needed)
 - [ ] Add your own features
 - [ ] Update `LICENSE` file
 - [ ] Customize component naming in `config/hooks/components.ts` (optional)
@@ -292,7 +292,7 @@ After creating your project from this template:
 
 **Use Features when:**
 
-- Code is specific to a business domain (e.g., bookmarks, auth, blog)
+- Code is specific to a business domain (e.g., todos, auth, blog)
 - Components/logic are unlikely to be reused across different features
 - You want to keep related code together
 
