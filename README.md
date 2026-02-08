@@ -1,5 +1,9 @@
 # Nuxt 4 Feature-Based Template
 
+[![Nuxt](https://img.shields.io/badge/Nuxt-4-00DC82?logo=nuxt.js)](https://nuxt.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A clean and organized Nuxt 4 starter template with feature-based architecture.
 
 ## 🎯 Why Feature-Based?
@@ -7,6 +11,14 @@ A clean and organized Nuxt 4 starter template with feature-based architecture.
 - Better scalability
 - Easier to maintain
 - Team collaboration friendly
+
+## ✨ Features
+
+- 🎯 **Feature-based architecture** - Organize code by features, not by type
+- 📦 **Modular structure** - Easy to add, remove, or modify features
+- 🔧 **Nuxt 4** - Latest Nuxt version with best practices
+- 📝 **TypeScript support** - Type-safe development
+- 🎨 **Auto-imports** - Components and composables auto-imported
 
 ## 📁 Project Structure
 
@@ -38,14 +50,6 @@ shared/                 # Shared scritps
 
 
 ```
-
-## ✨ Features
-
-- 🎯 **Feature-based architecture** - Organize code by features, not by type
-- 📦 **Modular structure** - Easy to add, remove, or modify features
-- 🔧 **Nuxt 4** - Latest Nuxt version with best practices
-- 📝 **TypeScript support** - Type-safe development
-- 🎨 **Auto-imports** - Components and composables auto-imported
 
 ## 🚀 Getting Started
 
@@ -192,6 +196,16 @@ For more information, see the [Nuxt 4 Directory Structure Documentation](https:/
 3. Commit your changes (`git commit -m 'feat: add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+## 🌟 Template Features Checklist
+
+After creating your project from this template:
+
+- [ ] Update package.json (name, description, author)
+- [ ] Update README.md with your project info
+- [ ] Remove example bookmark feature (if not needed)
+- [ ] Add your own features
+- [ ] Update LICENSE file
 
 ## 📄 License
 
