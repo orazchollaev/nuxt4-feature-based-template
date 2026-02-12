@@ -1,6 +1,6 @@
 {
   "name": "nuxt4-feature-based-template",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "module",
   "private": true,
   "scripts": {
@@ -8,7 +8,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "create:feature": "node scripts/create-feature.js"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.11.3",
