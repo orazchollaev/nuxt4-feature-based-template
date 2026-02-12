@@ -1,17 +1,26 @@
-// app/features/todo/composables/useTodo.ts
-
 export const useTodo = () => {
-  const store = useTodoStore();
+  const todoStore = useTodoStore();
 
-  const activeTodos = computed(() => store.todos.filter((t) => !t.completed));
+  const completedCount = computed(() => {
+    return todoStore.todos.filter((t) => t.completed).length;
+  });
 
-  const completedTodos = computed(() => store.todos.filter((t) => t.completed));
+  const totalCount = computed(() => {
+    return todoStore.todos.length;
+  });
+
+  const progress = computed(() => {
+    if (totalCount.value === 0) return 0;
+    return Math.round((completedCount.value / totalCount.value) * 100);
+  });
 
   return {
-    todos: store.todos,
-    activeTodos,
-    completedTodos,
-    addTodo: store.addTodo,
-    toggleTodo: store.toggleTodo,
+    todos: computed(() => todoStore.todos),
+    completedCount,
+    totalCount,
+    progress,
+    addTodo: todoStore.addTodo,
+    toggleTodo: todoStore.toggleTodo,
+    removeTodo: todoStore.removeTodo,
   };
 };
