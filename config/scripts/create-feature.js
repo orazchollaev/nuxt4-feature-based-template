@@ -20,7 +20,14 @@ if (!/^[a-z0-9-]+$/.test(featureName)) {
   process.exit(1);
 }
 
-const featurePath = path.join(__dirname, "..", "app", "features", featureName);
+const featurePath = path.join(
+  __dirname,
+  "..",
+  "..",
+  "app",
+  "features",
+  featureName,
+);
 
 if (fs.existsSync(featurePath)) {
   console.error(`❌ Feature folder already exists: ${featurePath}`);
@@ -83,7 +90,14 @@ files["components/Empty.vue"] = `<template>
 `;
 
 try {
-  const pagePath = path.join(__dirname, "..", "app", "pages", featureName);
+  const pagePath = path.join(
+    __dirname,
+    "..",
+    "..",
+    "app",
+    "pages",
+    featureName,
+  );
 
   if (!fs.existsSync(pagePath)) {
     fs.mkdirSync(pagePath, { recursive: true });
