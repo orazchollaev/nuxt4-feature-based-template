@@ -1,24 +1,27 @@
-<!-- app/components/Header.vue -->
 <template>
   <header class="header">
     <div class="container">
-      <div class="logo">
-        <h2>MyApp</h2>
-      </div>
+      <h1 class="logo">MyApp</h1>
       <nav class="nav">
-        <NuxtLink to="/" class="nav-link">Home</NuxtLink>
-        <NuxtLink to="/todos" class="nav-link">Todos</NuxtLink>
+        <NuxtLink to="/">Home</NuxtLink>
+        <NuxtLink to="/todo">Todos</NuxtLink>
       </nav>
     </div>
   </header>
 </template>
 
+<script setup lang="ts">
+// Header component
+</script>
+
 <style scoped>
 .header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: white;
+  border-bottom: 1px solid #eee;
   padding: 1rem 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .container {
@@ -30,10 +33,10 @@
   align-items: center;
 }
 
-.logo h2 {
-  margin: 0;
+.logo {
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: bold;
+  color: #00dc82;
 }
 
 .nav {
@@ -41,22 +44,20 @@
   gap: 2rem;
 }
 
-.nav-link {
-  color: white;
+.nav a {
   text-decoration: none;
+  color: #333;
   font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  transition: all 0.3s ease;
+  transition: color 0.2s;
 }
 
-.nav-link:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+.nav a:hover {
+  color: #00dc82;
 }
 
-.nav-link.router-link-active {
-  background: rgba(255, 255, 255, 0.3);
-  font-weight: 600;
+.nav a.router-link-active {
+  color: #00dc82;
+  border-bottom: 2px solid #00dc82;
+  padding-bottom: 0.25rem;
 }
 </style>
