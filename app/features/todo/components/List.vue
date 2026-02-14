@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import type { Todo } from "../types";
-import { FTodoItem } from "..";
+import { FTodoItem, FTodoEmpty } from "..";
 
 interface Props {
   todos: Todo[];
