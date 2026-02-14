@@ -1,6 +1,6 @@
 import type { Todo, TodoFilter } from "../types";
 
-export const useTodo = () => {
+export const useTodoStore = defineStore("todo", () => {
   const todos = ref<Todo[]>([
     {
       id: "1",
@@ -29,6 +29,14 @@ export const useTodo = () => {
     return todos.value;
   });
 
+  const activeCount = computed(
+    () => todos.value.filter((t) => !t.completed).length,
+  );
+
+  const completedCount = computed(
+    () => todos.value.filter((t) => t.completed).length,
+  );
+
   const addTodo = (title: string) => {
     const newTodo: Todo = {
       id: Date.now().toString(),
@@ -54,13 +62,20 @@ export const useTodo = () => {
     filter.value = newFilter;
   };
 
+  const clearCompleted = () => {
+    todos.value = todos.value.filter((t) => !t.completed);
+  };
+
   return {
     todos: filteredTodos,
     filter,
     loading,
+    activeCount,
+    completedCount,
     addTodo,
     toggleTodo,
     deleteTodo,
     setFilter,
+    clearCompleted,
   };
-};
+});

@@ -1,25 +1,26 @@
 <template>
-  <div class="home">
-    <h1>Welcome to Nuxt 4 Feature-Based Template</h1>
+  <div class="home-page">
+    <h1>Welcome to Nuxt 4</h1>
+    <p>Feature-based architecture with barrel exports</p>
 
-    <section class="intro">
-      <p>This is a production-ready starter with feature-based architecture.</p>
-      <p>
-        Navigate to <NuxtLink to="/todo">Todos</NuxtLink> to see the feature in
-        action.
-      </p>
-    </section>
+    <div class="features">
+      <div class="feature-card">
+        <h2>🎯 Barrel Exports</h2>
+        <p>Clean imports from feature modules</p>
+      </div>
 
-    <section class="features">
-      <h2>Features</h2>
-      <ul>
-        <li>✅ Feature-based architecture</li>
-        <li>✅ Auto-imported components & composables</li>
-        <li>✅ Smart component naming</li>
-        <li>✅ Pinia state management</li>
-        <li>✅ TypeScript support</li>
-      </ul>
-    </section>
+      <div class="feature-card">
+        <h2>📦 Feature-Based</h2>
+        <p>Organized by business domain</p>
+      </div>
+
+      <div class="feature-card">
+        <h2>🚀 Type-Safe</h2>
+        <p>Full TypeScript support</p>
+      </div>
+    </div>
+
+    <NuxtLink to="/todo" class="cta-btn"> Go to Todo App </NuxtLink>
   </div>
 </template>
 
@@ -28,60 +29,73 @@
 </script>
 
 <style scoped>
-.home {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+.home-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  text-align: center;
 }
 
 h1 {
-  font-size: 2.5rem;
-  color: #333;
+  font-size: 3rem;
   margin-bottom: 1rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-h2 {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 1rem;
-}
-
-.intro {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  border-left: 4px solid #00dc82;
-}
-
-.intro p {
-  margin: 0.5rem 0;
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
-.intro a {
-  color: #00dc82;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.intro a:hover {
-  text-decoration: underline;
+p {
+  font-size: 1.25rem;
+  color: #6b7280;
+  margin-bottom: 3rem;
 }
 
 .features {
-  background: white;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.feature-card {
   padding: 2rem;
-  border-radius: 8px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
-.features ul {
-  list-style: none;
-  padding: 0;
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.features li {
-  padding: 0.75rem 0;
-  font-size: 1.1rem;
+.feature-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+.cta-btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: #3b82f6;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.cta-btn:hover {
+  background: #2563eb;
 }
 </style>
