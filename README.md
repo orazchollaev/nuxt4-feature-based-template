@@ -4,6 +4,7 @@ Minimal and scalable Nuxt 4 starter using feature-based architecture and barrel 
 
 ## Structure
 
+```
 app/
 ├─ features/
 │ ├─ index.ts
@@ -17,6 +18,7 @@ app/
 └─ pages/
 
 config/scripts/create-feature.mjs
+```
 
 ## Install
 
