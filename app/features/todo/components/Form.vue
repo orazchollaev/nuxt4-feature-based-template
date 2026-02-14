@@ -1,17 +1,3 @@
-<template>
-  <form @submit.prevent="handleSubmit" class="todo-form">
-    <input
-      v-model="title"
-      type="text"
-      placeholder="What needs to be done?"
-      class="input"
-      required
-    />
-
-    <button type="submit" class="submit-btn">Add Todo</button>
-  </form>
-</template>
-
 <script setup lang="ts">
 interface Emits {
   (e: "submit", title: string): void;
@@ -28,6 +14,20 @@ const handleSubmit = () => {
   }
 };
 </script>
+
+<template>
+  <form @submit.prevent="handleSubmit" class="todo-form">
+    <input
+      v-model="title"
+      type="text"
+      placeholder="What needs to be done?"
+      class="input"
+      required
+    />
+
+    <button type="submit" class="submit-btn">Add Todo</button>
+  </form>
+</template>
 
 <style scoped>
 .todo-form {

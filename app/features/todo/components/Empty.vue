@@ -1,12 +1,12 @@
+<script setup lang="ts">
+// Empty state component
+</script>
+
 <template>
   <div class="todo-empty">
     <p>No todos found. Create your first todo!</p>
   </div>
 </template>
-
-<script setup lang="ts">
-// Empty state component
-</script>
 
 <style scoped>
 .todo-empty {

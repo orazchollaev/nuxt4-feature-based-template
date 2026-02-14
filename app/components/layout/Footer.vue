@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const year = computed(() => new Date().getFullYear());
+</script>
+
 <template>
   <footer class="footer">
     <div class="container">
@@ -8,10 +12,6 @@
     </div>
   </footer>
 </template>
-
-<script setup lang="ts">
-const year = computed(() => new Date().getFullYear());
-</script>
 
 <style scoped>
 .footer {

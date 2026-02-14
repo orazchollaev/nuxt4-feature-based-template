@@ -1,17 +1,3 @@
-<template>
-  <div class="todo-list">
-    <FTodoItem
-      v-for="todo in todos"
-      :key="todo.id"
-      :todo="todo"
-      @toggle="$emit('toggle', todo.id)"
-      @delete="$emit('delete', todo.id)"
-    />
-
-    <FTodoEmpty v-if="todos.length === 0" />
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { Todo } from "../types";
 import { FTodoItem, FTodoEmpty } from "..";
@@ -28,6 +14,20 @@ interface Emits {
 defineProps<Props>();
 defineEmits<Emits>();
 </script>
+
+<template>
+  <div class="todo-list">
+    <FTodoItem
+      v-for="todo in todos"
+      :key="todo.id"
+      :todo="todo"
+      @toggle="$emit('toggle', todo.id)"
+      @delete="$emit('delete', todo.id)"
+    />
+
+    <FTodoEmpty v-if="todos.length === 0" />
+  </div>
+</template>
 
 <style scoped>
 .todo-list {
