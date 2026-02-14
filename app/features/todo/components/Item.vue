@@ -1,18 +1,3 @@
-<template>
-  <div class="todo-item" :class="{ completed: todo.completed }">
-    <input
-      type="checkbox"
-      :checked="todo.completed"
-      @change="$emit('toggle')"
-      class="checkbox"
-    />
-
-    <span class="title">{{ todo.title }}</span>
-
-    <button @click="$emit('delete')" class="delete-btn">Delete</button>
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { Todo } from "../types";
 
@@ -28,6 +13,21 @@ interface Emits {
 defineProps<Props>();
 defineEmits<Emits>();
 </script>
+
+<template>
+  <div class="todo-item" :class="{ completed: todo.completed }">
+    <input
+      type="checkbox"
+      :checked="todo.completed"
+      @change="$emit('toggle')"
+      class="checkbox"
+    />
+
+    <span class="title">{{ todo.title }}</span>
+
+    <button @click="$emit('delete')" class="delete-btn">Delete</button>
+  </div>
+</template>
 
 <style scoped>
 .todo-item {

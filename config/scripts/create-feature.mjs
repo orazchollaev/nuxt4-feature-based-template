@@ -148,15 +148,15 @@ export const use${capitalizedName}Store = defineStore('${featureName}', () => {
 });
 `;
 
-files["components/Empty.vue"] = `<template>
+files["components/Empty.vue"] = `<script setup lang="ts">
+// ${capitalizedName} Empty State Component
+</script>
+
+<template>
   <div class="${featureName}-empty">
     <p>No ${featureName} items found</p>
   </div>
 </template>
-
-<script setup lang="ts">
-// ${capitalizedName} Empty State Component
-</script>
 
 <style scoped>
 .${featureName}-empty {
@@ -167,14 +167,7 @@ files["components/Empty.vue"] = `<template>
 </style>
 `;
 
-files["pages/index.vue"] = `<template>
-  <div class="${featureName}-page">
-    <h1>${capitalizedName} Page</h1>
-    <${componentPrefix}Empty />
-  </div>
-</template>
-
-<script setup lang="ts">
+files["pages/index.vue"] = `<script setup lang="ts">
 import { 
   use${capitalizedName}, 
   use${capitalizedName}Store,
@@ -187,6 +180,13 @@ const { items, loading, error, fetchItems } = use${capitalizedName}();
 // OR
 // const store = use${capitalizedName}Store();
 </script>
+
+<template>
+  <div class="${featureName}-page">
+    <h1>${capitalizedName} Page</h1>
+    <${componentPrefix}Empty />
+  </div>
+</template>
 
 <style scoped>
 .${featureName}-page {

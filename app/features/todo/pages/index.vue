@@ -1,30 +1,3 @@
-<template>
-  <div class="todo-page">
-    <div class="header">
-      <h1>Todo App</h1>
-      <div class="filters">
-        <button
-          v-for="f in filters"
-          :key="f"
-          @click="setFilter(f)"
-          :class="{ active: filter === f }"
-          class="filter-btn"
-        >
-          {{ f }}
-        </button>
-      </div>
-    </div>
-
-    <FTodoForm @submit="addTodo" />
-
-    <FTodoList :todos="todos" @toggle="toggleTodo" @delete="deleteTodo" />
-
-    <div v-if="todos.length > 0" class="stats">
-      <p>{{ activeCount }} active, {{ completedCount }} completed</p>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import {
   useTodoStore,
@@ -32,6 +5,12 @@ import {
   FTodoForm,
   FTodoList,
 } from "~/features/todo";
+
+useSeoMeta({
+  title: "Nuxt 4 Feature-Based Starter",
+  description:
+    "Scalable Nuxt 4 architecture with feature-based structure and auto routing",
+});
 
 const store = useTodoStore();
 
@@ -58,6 +37,33 @@ const setFilter = (newFilter: TodoFilter) => {
   store.setFilter(newFilter);
 };
 </script>
+
+<template>
+  <div class="todo-page">
+    <div class="header">
+      <h1>Todo App</h1>
+      <div class="filters">
+        <button
+          v-for="f in filters"
+          :key="f"
+          @click="setFilter(f)"
+          :class="{ active: filter === f }"
+          class="filter-btn"
+        >
+          {{ f }}
+        </button>
+      </div>
+    </div>
+
+    <FTodoForm @submit="addTodo" />
+
+    <FTodoList :todos="todos" @toggle="toggleTodo" @delete="deleteTodo" />
+
+    <div v-if="todos.length > 0" class="stats">
+      <p>{{ activeCount }} active, {{ completedCount }} completed</p>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .todo-page {

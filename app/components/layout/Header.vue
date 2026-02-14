@@ -1,3 +1,7 @@
+<script setup lang="ts">
+// Header component
+</script>
+
 <template>
   <header class="header">
     <div class="container">
@@ -10,10 +14,6 @@
     </div>
   </header>
 </template>
-
-<script setup lang="ts">
-// Header component
-</script>
 
 <style scoped>
 .header {
