@@ -22,20 +22,28 @@ config/scripts/create-feature.mjs
 
 ## Install
 
-npm install  
+```
+npm install
 npm run dev
+```
 
 ## Build
 
+```
 npm run build
+```
 
 ## Create Feature
 
+```
 npm run create:feature blog
+```
 
 ## Usage
 
+```
 import { useTodo, FTodoList, type Todo } from "~/features/todo"
+```
 
 ## Rules
 
