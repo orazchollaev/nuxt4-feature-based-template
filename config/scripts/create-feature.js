@@ -1,3 +1,4 @@
+// config/scripts/create-feature.mjs
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -46,7 +47,7 @@ function snakeCase(str) {
 }
 
 const capitalizedName = capitalize(featureName);
-const snakeCaseName = snakeCase(featureName).toUpperCase();
+const componentPrefix = `F${capitalizedName}`;
 
 const structure = {
   components: [],
@@ -57,39 +58,144 @@ const structure = {
 
 const files = {};
 
-files["types/index.ts"] = `// ${capitalizedName} - Types
-export interface ${capitalizedName} {
+// Barrel export index.ts
+files["index.ts"] = `// ${capitalizedName} Feature - Barrel Exports
 
+// Composables
+export * from "./composables/use${capitalizedName}";
+
+// Stores
+export * from "./stores/${featureName}";
+
+// Types
+export * from "./types";
+
+// Components
+export { default as ${componentPrefix}Empty } from "./components/Empty.vue";
+`;
+
+// Types
+files["types/index.ts"] = `// ${capitalizedName} - Types
+
+export interface ${capitalizedName} {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ${capitalizedName}State {
+  items: ${capitalizedName}[];
+  loading: boolean;
+  error: string | null;
 }
 `;
 
+// Composable
 files[`composables/use${capitalizedName}.ts`] =
-  `export const use${capitalizedName} = () => {
-  
-  return {};
+  `import type { ${capitalizedName} } from '../types';
+
+export const use${capitalizedName} = () => {
+  const items = ref<${capitalizedName}[]>([]);
+  const loading = ref(false);
+  const error = ref<string | null>(null);
+
+  const fetchItems = async () => {
+    loading.value = true;
+    error.value = null;
+    
+    try {
+      // TODO: Implement fetch logic
+      // const data = await $fetch('/api/${featureName}');
+      // items.value = data;
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'An error occurred';
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  return {
+    items,
+    loading,
+    error,
+    fetchItems,
+  };
 };
 `;
 
-files[`stores/${featureName}.ts`] = `
+// Store
+files[`stores/${featureName}.ts`] =
+  `import type { ${capitalizedName}, ${capitalizedName}State } from '../types';
+
 export const use${capitalizedName}Store = defineStore('${featureName}', () => {
+  const state = reactive<${capitalizedName}State>({
+    items: [],
+    loading: false,
+    error: null,
+  });
+
+  const fetchItems = async () => {
+    state.loading = true;
+    state.error = null;
+
+    try {
+      // TODO: Implement fetch logic
+      // const data = await $fetch('/api/${featureName}');
+      // state.items = data;
+    } catch (err) {
+      state.error = err instanceof Error ? err.message : 'An error occurred';
+    } finally {
+      state.loading = false;
+    }
+  };
 
   return {
+    ...toRefs(state),
+    fetchItems,
   };
 });
 `;
 
+// Empty component
 files["components/Empty.vue"] = `<template>
-  <div>
-    <p>No ${featureName} found</p>
+  <div class="${featureName}-empty">
+    <p>No ${featureName} items found</p>
   </div>
 </template>
 
 <script setup lang="ts">
 // ${capitalizedName} Empty State Component
 </script>
+
+<style scoped>
+.${featureName}-empty {
+  padding: 2rem;
+  text-align: center;
+  color: #6b7280;
+}
+</style>
 `;
 
 try {
+  // Create feature directory structure
+  Object.keys(structure).forEach((dir) => {
+    const dirPath = path.join(featurePath, dir);
+    fs.mkdirSync(dirPath, { recursive: true });
+  });
+
+  // Write all feature files
+  Object.entries(files).forEach(([filePath, content]) => {
+    const fullPath = path.join(featurePath, filePath);
+    const dirPath = path.dirname(fullPath);
+
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+
+    fs.writeFileSync(fullPath, content);
+  });
+
+  // Create page
   const pagePath = path.join(
     __dirname,
     "..",
@@ -108,41 +214,40 @@ try {
   fs.writeFileSync(
     pageFilePath,
     `<template>
-  <div>
+  <div class="${featureName}-page">
     <h1>${capitalizedName} Page</h1>
+    <${componentPrefix}Empty />
   </div>
 </template>
 
 <script setup lang="ts">
-// Page for ${capitalizedName}
+import { 
+  use${capitalizedName}, 
+  use${capitalizedName}Store,
+  ${componentPrefix}Empty,
+  type ${capitalizedName}
+} from '~/features/${featureName}';
+
+// Use composable or store
+const { items, loading, error, fetchItems } = use${capitalizedName}();
+// OR
+// const store = use${capitalizedName}Store();
 </script>
+
+<style scoped>
+.${featureName}-page {
+  padding: 2rem;
+}
+</style>
 `,
   );
 
-  Object.keys(structure).forEach((dir) => {
-    const dirPath = path.join(featurePath, dir);
-    fs.mkdirSync(dirPath, { recursive: true });
-  });
+  console.log("\n✅ Feature created successfully!\n");
 
-  Object.entries(files).forEach(([filePath, content]) => {
-    const fullPath = path.join(featurePath, filePath);
-    const dirPath = path.dirname(fullPath);
-
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(dirPath, { recursive: true });
-    }
-
-    fs.writeFileSync(fullPath, content);
-  });
-
-  console.log("\n✔ Feature created\n");
-
-  console.log("app/pages:");
+  console.log("📁 Generated structure:\n");
+  console.log("app/features/");
   console.log(`  ${featureName}/`);
-  console.log("    index.vue\n");
-
-  console.log("app/features:");
-  console.log(`  ${featureName}/`);
+  console.log("    index.ts                    # 🎯 Barrel export");
   console.log("    components/");
   console.log("      Empty.vue");
   console.log("    composables/");
@@ -151,6 +256,15 @@ try {
   console.log(`      ${featureName}.ts`);
   console.log("    types/");
   console.log("      index.ts\n");
+
+  console.log("app/pages/");
+  console.log(`  ${featureName}/`);
+  console.log("    index.vue\n");
+
+  console.log("💡 Usage:");
+  console.log(
+    `import { use${capitalizedName}, ${componentPrefix}Empty } from '~/features/${featureName}';\n`,
+  );
 } catch (error) {
   console.error("❌ Error occurred:", error.message);
   process.exit(1);

@@ -1,86 +1,46 @@
-# Nuxt 4 Feature-Based Template
+# Nuxt 4 Feature-Based Starter
 
-[![Nuxt](https://img.shields.io/badge/Nuxt-4-00DC82?logo=nuxt.js)](https://nuxt.com/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)](https://www.typescriptlang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+Minimal and scalable Nuxt 4 starter using feature-based architecture and barrel exports.
 
-Production-ready Nuxt 4 starter with feature-based architecture, auto-imports, and smart component naming.
+## Structure
 
-## 📁 Structure
-
-```
 app/
-├── features/              # Feature modules
-│   ├── todo/
-│   │   ├── components/    # f-todo-* prefix
-│   │   ├── composables/   # useTodo
-│   │   ├── stores/        # useTodoStore
-│   │   └── types/
-│   └── blog/
-├── pages/                 # Routes (NOT in features)
-├── components/            # Shared components
-├── composables/           # Shared composables
-├── stores/                # Global Pinia stores
-└── ...                    # Other Nuxt directories
+├─ features/
+│ ├─ index.ts
+│ ├─ components/
+│ ├─ composables/
+│ ├─ stores/
+│ └─ types/
+├─ components/
+├─ composables/
+├─ stores/
+└─ pages/
 
-config/
-└── hooks/                 # Nuxt lifecycle
-```
+config/scripts/create-feature.mjs
 
-## 🚀 Getting Started
+## Install
 
-```bash
-# Install
-npm install
-
-# Start dev server
+npm install  
 npm run dev
 
-# Create feature
-npm run create:feature blog
+## Build
 
-# Build
 npm run build
-```
 
-## 📖 Usage
+## Create Feature
 
-```bash
-# Create feature
 npm run create:feature blog
-```
 
-Auto-generates `app/features/blog/` with components, composables, stores, types and page route.
+## Usage
 
-### Component Naming
+import { useTodo, FTodoList, type Todo } from "~/features/todo"
 
-Feature components auto-prefix: `f-{feature}-{component}`
+## Rules
 
-```vue
-<f-todo-list />
-<!-- app/features/todo/components/List.vue -->
-<f-blog-card />
-<!-- app/features/blog/components/Card.vue -->
-<Button />
-<!-- app/components/Button.vue (shared, no prefix) -->
-```
+- One feature = one entry point
+- No deep imports
+- Features are isolated
 
-### Composables & Stores
+## License
 
-Auto-imported from feature folders:
-
-```vue
-<script setup>
-const { todos } = useTodo();
-const store = useTodoStore();
-</script>
-```
-
-## ⚙️ Configuration
-
-- **`nuxt.config.ts`** - Main configuration
-- **`config/hooks/components.ts`** - Component naming customization
-
-## 📄 License
-
-MIT License
+MIT

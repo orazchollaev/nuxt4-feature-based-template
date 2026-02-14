@@ -1,125 +1,114 @@
 <template>
-  <div class="todos-page">
-    <h1>My Todos</h1>
-
-    <div class="stats">
-      <div class="stat">
-        <span class="label">Total:</span>
-        <span class="value">{{ totalCount }}</span>
-      </div>
-      <div class="stat">
-        <span class="label">Completed:</span>
-        <span class="value">{{ completedCount }}</span>
-      </div>
-      <div class="stat">
-        <span class="label">Progress:</span>
-        <span class="value">{{ progress }}%</span>
+  <div class="todo-page">
+    <div class="header">
+      <h1>Todo App</h1>
+      <div class="filters">
+        <button
+          v-for="f in filters"
+          :key="f"
+          @click="setFilter(f)"
+          :class="{ active: filter === f }"
+          class="filter-btn"
+        >
+          {{ f }}
+        </button>
       </div>
     </div>
 
-    <div class="form">
-      <input
-        v-model="newTodoTitle"
-        type="text"
-        placeholder="Add a new todo..."
-        @keyup.enter="handleAddTodo"
-        class="input"
-      />
-      <button @click="handleAddTodo" class="add-btn">Add</button>
-    </div>
+    <FTodoForm @submit="addTodo" />
 
-    <f-todo-list />
+    <FTodoList :todos="todos" @toggle="toggleTodo" @delete="deleteTodo" />
+
+    <div v-if="todos.length > 0" class="stats">
+      <p>{{ activeCount }} active, {{ completedCount }} completed</p>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const { todos, completedCount, totalCount, progress, addTodo } = useTodo();
-const newTodoTitle = ref("");
+import {
+  useTodoStore,
+  type TodoFilter,
+  FTodoForm,
+  FTodoList,
+} from "~/features/todo";
 
-const handleAddTodo = () => {
-  if (newTodoTitle.value.trim()) {
-    addTodo({ title: newTodoTitle.value });
-    newTodoTitle.value = "";
-  }
+const store = useTodoStore();
+
+const todos = computed(() => store.todos);
+const filter = computed(() => store.filter);
+const activeCount = computed(() => store.activeCount);
+const completedCount = computed(() => store.completedCount);
+
+const filters: TodoFilter[] = ["all", "active", "completed"];
+
+const addTodo = (title: string) => {
+  store.addTodo(title);
+};
+
+const toggleTodo = (id: string) => {
+  store.toggleTodo(id);
+};
+
+const deleteTodo = (id: string) => {
+  store.deleteTodo(id);
+};
+
+const setFilter = (newFilter: TodoFilter) => {
+  store.setFilter(newFilter);
 };
 </script>
 
 <style scoped>
-.todos-page {
+.todo-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
 }
 
 h1 {
-  font-size: 2rem;
-  color: #333;
+  font-size: 2.5rem;
+  margin: 0;
 }
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-}
-
-.stat {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid #eee;
+.filters {
   display: flex;
-  flex-direction: column;
   gap: 0.5rem;
 }
 
-.stat .label {
-  font-size: 0.9rem;
-  color: #666;
-  font-weight: 500;
-}
-
-.stat .value {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #00dc82;
-}
-
-.form {
-  display: flex;
-  gap: 1rem;
+.filter-btn {
+  padding: 0.5rem 1rem;
   background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid #eee;
-}
-
-.input {
-  flex: 1;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-}
-
-.input:focus {
-  outline: none;
-  border-color: #00dc82;
-  box-shadow: 0 0 0 3px rgba(0, 220, 130, 0.1);
-}
-
-.add-btn {
-  padding: 0.75rem 2rem;
-  background: #00dc82;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-weight: bold;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
   cursor: pointer;
-  transition: background 0.2s;
+  text-transform: capitalize;
+  transition: all 0.2s;
 }
 
-.add-btn:hover {
-  background: #00c973;
+.filter-btn:hover {
+  border-color: #3b82f6;
+}
+
+.filter-btn.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.stats {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  text-align: center;
+  color: #6b7280;
 }
 </style>

@@ -1,3 +1,5 @@
+// Todo Types
+
 export interface Todo {
   id: string;
   title: string;
@@ -5,6 +7,10 @@ export interface Todo {
   createdAt: Date;
 }
 
-export interface CreateTodoDTO {
-  title: string;
+export interface TodoState {
+  todos: Todo[];
+  loading: boolean;
+  error: string | null;
 }
+
+export type TodoFilter = "all" | "active" | "completed";
