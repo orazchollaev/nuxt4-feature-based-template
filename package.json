@@ -1,6 +1,6 @@
 {
   "name": "nuxt4-feature-based-template",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "type": "module",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "create:feature": "node config/scripts/create-feature.js"
+    "create:feature": "node config/scripts/create-feature.mjs"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.11.3",
@@ -19,6 +19,7 @@
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
+    "@types/node": "^25.2.3",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.2.4"
   }

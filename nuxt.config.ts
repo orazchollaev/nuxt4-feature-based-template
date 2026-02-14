@@ -1,3 +1,8 @@
+import {
+  featureBasedPagesHook,
+  getFeaturePagesWatchPaths,
+} from "./config/hooks/pages.hooks";
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
@@ -8,6 +13,11 @@ export default defineNuxtConfig({
   },
 
   modules: ["@pinia/nuxt"],
-
   css: ["~/assets/index.css"],
+
+  watch: [...getFeaturePagesWatchPaths()],
+
+  hooks: {
+    "pages:extend": featureBasedPagesHook,
+  },
 });
