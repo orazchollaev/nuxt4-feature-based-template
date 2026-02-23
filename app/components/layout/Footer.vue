@@ -6,17 +6,18 @@ const year = computed(() => new Date().getFullYear());
   <footer class="footer">
     <div class="container">
       <p>
-        Built with <span class="heart">♥</span> using Nuxt 4 & Barrel Exports
+        Built with <span class="heart">♥</span> using Nuxt 4 & Feature-Based
+        Architecture
       </p>
-      <p class="copyright">© {{ year }} - Feature-Based Architecture</p>
+      <p class="copyright">© {{ year }} - Auto Imports & Auto Routing</p>
     </div>
   </footer>
 </template>
 
 <style scoped>
 .footer {
-  background: #1f2937;
-  color: white;
+  background: #0f0f0f;
+  border-top: 1px solid #2a2a2a;
   margin-top: 4rem;
 }
 
@@ -29,17 +30,18 @@ const year = computed(() => new Date().getFullYear());
 
 .footer p {
   margin: 0.5rem 0;
-  color: #d1d5db;
+  color: #6b7280;
 }
 
 .heart {
   color: #ef4444;
   animation: heartbeat 1.5s ease-in-out infinite;
+  display: inline-block;
 }
 
 .copyright {
   font-size: 0.875rem;
-  color: #9ca3af;
+  color: #4b5563;
 }
 
 @keyframes heartbeat {
@@ -48,7 +50,7 @@ const year = computed(() => new Date().getFullYear());
     transform: scale(1);
   }
   50% {
-    transform: scale(1.1);
+    transform: scale(1.2);
   }
 }
 </style>

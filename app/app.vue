@@ -21,8 +21,8 @@ body {
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
     Cantarell, sans-serif;
-  color: #333;
-  background: #f5f5f5;
+  color: #f1f1f1;
+  background: #0f0f0f;
 }
 
 main {
@@ -30,5 +30,16 @@ main {
   margin: 0 auto;
   padding: 2rem;
   min-height: calc(100vh - 200px);
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s;
+}
+.page-enter-from,
+.page-leave-to {
+  filter: blur(10px);
+  transform: translateY(10px) scale(0.7);
+  opacity: 0;
 }
 </style>
