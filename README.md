@@ -1,6 +1,6 @@
 # Nuxt 4 Feature-Based Starter
 
-Minimal and scalable Nuxt 4 starter using feature-based architecture with integrated pages and hot reload support.
+Minimal Nuxt 4 starter with feature-based architecture and full HMR support.
 
 ## Structure
 
@@ -8,71 +8,69 @@ Minimal and scalable Nuxt 4 starter using feature-based architecture with integr
 app/
 ├── features/
 │   └── [feature-name]/
-│       ├── index.ts           # Barrel export
-│       ├── components/
-│       ├── composables/
-│       ├── stores/
-│       ├── types/
-│       └── pages/            # Auto-registered routes
-│           ├── index.vue     # → /feature-name
-│           ├── about.vue     # → /feature-name/about
-│           └── [id].vue      # → /feature-name/:id
-├── components/
-├── composables/
-├── stores/
-└── pages/
+│       ├── components/     # <f-[feature]-[name] />
+│       ├── composables/    # auto-imported
+│       ├── stores/         # auto-imported
+│       ├── utils/          # auto-imported
+│       ├── types/          # explicit import only
+│       └── pages/          # auto-registered routes
+└── ...
 ```
 
-## Install
+## Setup
 
 ```bash
 npm install
 npm run dev
-```
-
-## Build
-
-```bash
 npm run build
 ```
 
-## Create Feature
+## Create a Feature
 
 ```bash
 npm run create:feature blog
 ```
 
-This creates:
-
-- Feature directory with components, composables, stores, types
-- Pages directory inside feature (auto-registered as routes)
-- Barrel export file (index.ts)
-
 ## Routing
 
-Pages inside `features/[name]/pages/` are automatically registered:
-
 ```
-features/blog/pages/index.vue      → /blog
-features/blog/pages/create.vue     → /blog/create
-features/blog/pages/[slug].vue     → /blog/:slug
-features/blog/pages/[...all].vue   → /blog/*
+features/blog/pages/index.vue    → /blog
+features/blog/pages/[slug].vue   → /blog/:slug
 ```
 
-Hot reload works without restart - just create new pages and they're instantly available.
+## Component Auto-Import
 
-## Usage
+Components are prefixed with `f-[feature]-` to avoid conflicts:
 
-```typescript
-import { useBlog, FBlogList, type Blog } from "~/features/blog";
+```
+features/todo/components/Item.vue   → <f-todo-item />
+features/blog/components/Card.vue   → <f-blog-card />
+```
+
+## Composable & Store Auto-Import
+
+Everything in `composables/`, `stores/`, and `utils/` is available globally — no imports needed:
+
+```vue
+<script setup lang="ts">
+const store = useTodoStore();
+const { items } = useTodo();
+</script>
+```
+
+## Types
+
+Import types explicitly:
+
+```ts
+import type { Todo } from "~/features/todo/types/todo.types";
 ```
 
 ## Rules
 
-- One feature = one entry point
-- No deep imports between features
-- Features are self-contained
-- Pages live inside features
+- Each feature has one entry point — there are no barrel exports (`index.ts`)
+- No cross-feature deep imports
+- Pages live inside the feature directory
 
 ## License
 
