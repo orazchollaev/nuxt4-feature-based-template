@@ -42,51 +42,29 @@ function capitalize(str) {
 }
 
 const capitalizedName = capitalize(featureName);
-const componentPrefix = `F${capitalizedName}`;
 
-const structure = {
-  components: [],
-  composables: [],
-  stores: [],
-  types: [],
-  pages: [],
-};
+// ---------------------------------------------------------------------------
+// File contents
+// ---------------------------------------------------------------------------
 
 const files = {};
 
-files["index.ts"] = `// ${capitalizedName} Feature - Barrel Exports
-
-// Composables
-export * from "./composables/use${capitalizedName}";
-
-// Stores
-export * from "./stores/${featureName}";
-
-// Types
-export * from "./types";
-
-// Components
-export { default as ${componentPrefix}Empty } from "./components/Empty.vue";
-`;
-
-files["types/index.ts"] = `// ${capitalizedName} - Types
+// Types — always imported explicitly, not auto-imported
+files["types/index.ts"] = `// ${capitalizedName} — Types
+// Import explicitly: import type { ${capitalizedName} } from '~/features/${featureName}/types'
 
 export interface ${capitalizedName} {
   id: string;
   createdAt: Date;
   updatedAt: Date;
 }
-
-export interface ${capitalizedName}State {
-  items: ${capitalizedName}[];
-  loading: boolean;
-  error: string | null;
-}
 `;
 
+// Composable — auto-imported globally by nuxt-feature-imports
 files[`composables/use${capitalizedName}.ts`] =
   `import type { ${capitalizedName} } from '../types';
 
+// Auto-imported globally — no import needed in .vue files
 export const use${capitalizedName} = () => {
   const items = ref<${capitalizedName}[]>([]);
   const loading = ref(false);
@@ -95,11 +73,10 @@ export const use${capitalizedName} = () => {
   const fetchItems = async () => {
     loading.value = true;
     error.value = null;
-    
+
     try {
       // TODO: Implement fetch logic
-      // const data = await $fetch('/api/${featureName}');
-      // items.value = data;
+      // items.value = await $fetch('/api/${featureName}');
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'An error occurred';
     } finally {
@@ -107,54 +84,47 @@ export const use${capitalizedName} = () => {
     }
   };
 
-  return {
-    items,
-    loading,
-    error,
-    fetchItems,
-  };
+  return { items, loading, error, fetchItems };
 };
 `;
 
-files[`stores/${featureName}.ts`] =
-  `import type { ${capitalizedName}, ${capitalizedName}State } from '../types';
+// Store — auto-imported globally by nuxt-feature-imports
+files[`stores/${featureName}.store.ts`] =
+  `import type { ${capitalizedName} } from '../types';
 
+// Auto-imported globally — no import needed in .vue files
 export const use${capitalizedName}Store = defineStore('${featureName}', () => {
-  const state = reactive<${capitalizedName}State>({
-    items: [],
-    loading: false,
-    error: null,
-  });
+  const items = ref<${capitalizedName}[]>([]);
+  const loading = ref(false);
+  const error = ref<string | null>(null);
 
   const fetchItems = async () => {
-    state.loading = true;
-    state.error = null;
+    loading.value = true;
+    error.value = null;
 
     try {
       // TODO: Implement fetch logic
-      // const data = await $fetch('/api/${featureName}');
-      // state.items = data;
+      // items.value = await $fetch('/api/${featureName}');
     } catch (err) {
-      state.error = err instanceof Error ? err.message : 'An error occurred';
+      error.value = err instanceof Error ? err.message : 'An error occurred';
     } finally {
-      state.loading = false;
+      loading.value = false;
     }
   };
 
-  return {
-    ...toRefs(state),
-    fetchItems,
-  };
+  return { items, loading, error, fetchItems };
 });
 `;
 
+// Component — auto-imported as <f-[feature]-empty /> by nuxt-feature-imports
 files["components/Empty.vue"] = `<script setup lang="ts">
-// ${capitalizedName} Empty State Component
+// Auto-imported as <f-${featureName}-empty />
+// No import needed — registered automatically by nuxt-feature-imports
 </script>
 
 <template>
   <div class="${featureName}-empty">
-    <p>No ${featureName} items found</p>
+    <slot>No ${featureName} items found.</slot>
   </div>
 </template>
 
@@ -163,28 +133,38 @@ files["components/Empty.vue"] = `<script setup lang="ts">
   padding: 2rem;
   text-align: center;
   color: #6b7280;
+  font-size: 0.95rem;
 }
 </style>
 `;
 
+// Page — uses auto-imports, explicit type import only
 files["pages/index.vue"] = `<script setup lang="ts">
-import { 
-  use${capitalizedName}, 
-  use${capitalizedName}Store,
-  ${componentPrefix}Empty,
-  type ${capitalizedName}
-} from '~/features/${featureName}';
+import type { ${capitalizedName} } from '~/features/${featureName}/types';
 
-// Use composable or store
+// Composable and store are auto-imported — no import statement needed
 const { items, loading, error, fetchItems } = use${capitalizedName}();
-// OR
-// const store = use${capitalizedName}Store();
+const store = use${capitalizedName}Store();
+
+onMounted(() => fetchItems());
 </script>
 
 <template>
   <div class="${featureName}-page">
-    <h1>${capitalizedName} Page</h1>
-    <${componentPrefix}Empty />
+    <h1>${capitalizedName}</h1>
+
+    <div v-if="loading">Loading...</div>
+    <div v-else-if="error">{{ error }}</div>
+
+    <!--
+      <f-${featureName}-empty /> is auto-imported from
+      features/${featureName}/components/Empty.vue
+    -->
+    <f-${featureName}-empty v-else-if="!items.length" />
+
+    <div v-else class="list">
+      <!-- TODO: render items -->
+    </div>
   </div>
 </template>
 
@@ -192,16 +172,27 @@ const { items, loading, error, fetchItems } = use${capitalizedName}();
 .${featureName}-page {
   padding: 2rem;
 }
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 </style>
 `;
 
-try {
-  Object.keys(structure).forEach((dir) => {
-    const dirPath = path.join(featurePath, dir);
-    fs.mkdirSync(dirPath, { recursive: true });
-  });
+// ---------------------------------------------------------------------------
+// Create directories and files
+// ---------------------------------------------------------------------------
 
-  Object.entries(files).forEach(([filePath, content]) => {
+const dirs = ["components", "composables", "stores", "types", "pages"];
+
+try {
+  for (const dir of dirs) {
+    fs.mkdirSync(path.join(featurePath, dir), { recursive: true });
+  }
+
+  for (const [filePath, content] of Object.entries(files)) {
     const fullPath = path.join(featurePath, filePath);
     const dirPath = path.dirname(fullPath);
 
@@ -210,30 +201,35 @@ try {
     }
 
     fs.writeFileSync(fullPath, content);
-  });
+  }
 
-  console.log("\nFeature created successfully!\n");
-  console.log("Generated structure:\n");
-  console.log("app/features/");
-  console.log(`  ${featureName}/`);
-  console.log("    index.ts");
-  console.log("    components/");
-  console.log("      Empty.vue");
-  console.log("    composables/");
-  console.log(`      use${capitalizedName}.ts`);
-  console.log("    stores/");
-  console.log(`      ${featureName}.ts`);
-  console.log("    types/");
-  console.log("      index.ts");
-  console.log("    pages/");
-  console.log("      index.vue\n");
+  // ---------------------------------------------------------------------------
+  // Success output
+  // ---------------------------------------------------------------------------
+
+  console.log(`\n✓ Feature "${featureName}" created\n`);
+  console.log("Structure:\n");
+  console.log(`  app/features/${featureName}/`);
+  console.log(`    components/Empty.vue`);
+  console.log(`    composables/use${capitalizedName}.ts`);
+  console.log(`    stores/${featureName}.store.ts`);
+  console.log(`    types/index.ts`);
+  console.log(`    pages/index.vue`);
+  console.log("");
   console.log("Routes:");
-  console.log(`  /${featureName} → features/${featureName}/pages/index.vue\n`);
-  console.log("Usage:");
+  console.log(`  /${featureName}  →  pages/index.vue`);
+  console.log("");
+  console.log("Auto-imports (no import statement needed):");
+  console.log(`  use${capitalizedName}()         composable`);
+  console.log(`  use${capitalizedName}Store()    store`);
+  console.log(`  <f-${featureName}-empty />  component`);
+  console.log("");
+  console.log("Explicit import required:");
   console.log(
-    `import { use${capitalizedName}, ${componentPrefix}Empty } from '~/features/${featureName}';\n`,
+    `  import type { ${capitalizedName} } from '~/features/${featureName}/types'`,
   );
-} catch (error) {
-  console.error("Error occurred:", error.message);
+  console.log("");
+} catch (err) {
+  console.error("Error occurred:", err.message);
   process.exit(1);
 }

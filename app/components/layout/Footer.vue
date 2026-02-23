@@ -1,18 +1,15 @@
-<script setup lang="ts">
-const year = computed(() => new Date().getFullYear());
-</script>
-
 <template>
   <footer class="footer">
     <div class="container">
-      <p>
-        Built with <span class="heart">♥</span> using Nuxt 4 & Feature-Based
-        Architecture
-      </p>
-      <p class="copyright">© {{ year }} - Auto Imports & Auto Routing</p>
+      <p>Built with <span class="heart">♥</span> by OrazChollaev</p>
+      <p class="copyright">© {{ year }} - Feature-Based Architecture</p>
     </div>
   </footer>
 </template>
+
+<script setup lang="ts">
+const year = computed(() => new Date().getFullYear())
+</script>
 
 <style scoped>
 .footer {

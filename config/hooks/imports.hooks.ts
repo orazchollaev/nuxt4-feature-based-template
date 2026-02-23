@@ -1,160 +1,45 @@
 import { resolve } from "pathe";
-import { readdirSync, existsSync, statSync, readFileSync } from "node:fs";
+import { readdirSync, existsSync, statSync } from "node:fs";
+import { addImportsDir } from "@nuxt/kit";
 import type { Nuxt } from "nuxt/schema";
-import type { Import } from "unimport";
 
 const FEATURES_DIR = "./app/features";
-
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
-type ImportLayer = "composables" | "stores" | "utils";
-
-interface FeatureImport {
-  name: string;
-  filePath: string;
-  layer: ImportLayer;
-  featureName: string;
-}
-
-// ---------------------------------------------------------------------------
-// Parser
-// ---------------------------------------------------------------------------
-
-/**
- * Extracts runtime named exports from a .ts/.js file via regex.
- *
- * Handles:
- *   export const useFoo = ...
- *   export function useFoo() ...
- *   export async function useFoo() ...
- *   export class FooService ...
- *   export { useFoo, useBar }
- *
- * Deliberately skips:
- *   export type { ... }
- *   export interface ...
- *   export default
- */
-function extractNamedExports(filePath: string): string[] {
-  let src: string;
-  try {
-    src = readFileSync(filePath, "utf-8");
-  } catch {
-    return [];
-  }
-
-  const names = new Set<string>();
-
-  // export const|let|var|function|async function|function*|class name
-  const declRe =
-    /^export\s+(?:async\s+)?(?:const|let|var|function\*?|class)\s+([A-Za-z_$][A-Za-z0-9_$]*)/gm;
-  for (const m of src.matchAll(declRe) as any) names.add(m[1]);
-
-  // export { foo, bar as baz } — but NOT export type { ... }
-  const namedRe = /^export\s+(?!type[\s{])\{([^}]+)\}/gm;
-  for (const m of src.matchAll(namedRe)) {
-    for (const part of m[1]!.split(",")) {
-      const alias = part
-        .trim()
-        .split(/\s+as\s+/)
-        .pop()
-        ?.trim();
-      if (alias && alias !== "default") names.add(alias);
-    }
-  }
-
-  return [...names];
-}
 
 // ---------------------------------------------------------------------------
 // Scanner
 // ---------------------------------------------------------------------------
 
-function scanLayerDir(
-  dir: string,
-  featureName: string,
-  layer: ImportLayer,
-  acc: FeatureImport[],
-): void {
-  let entries: string[];
+function getFeatureDirs(featuresDir: string): string[] {
+  if (!existsSync(featuresDir)) return [];
   try {
-    entries = readdirSync(dir);
+    return readdirSync(featuresDir).filter((f) =>
+      statSync(resolve(featuresDir, f)).isDirectory(),
+    );
   } catch {
-    return;
+    return [];
   }
-
-  for (const entry of entries) {
-    const fullPath = resolve(dir, entry);
-    const stat = statSync(fullPath);
-
-    if (stat.isDirectory()) {
-      // Recursive — supports nested composables/stores/utils
-      scanLayerDir(fullPath, featureName, layer, acc);
-      continue;
-    }
-
-    if (!/\.(ts|js)$/.test(entry) || entry.endsWith(".d.ts")) continue;
-
-    for (const name of extractNamedExports(fullPath)) {
-      acc.push({ name, filePath: fullPath, layer, featureName });
-    }
-  }
-}
-
-function scanFeatureImports(): FeatureImport[] {
-  const featuresDir = resolve(FEATURES_DIR);
-  const imports: FeatureImport[] = [];
-
-  if (!existsSync(featuresDir)) return imports;
-
-  let features: string[];
-  try {
-    features = readdirSync(featuresDir);
-  } catch {
-    return imports;
-  }
-
-  for (const feature of features) {
-    const featureDir = resolve(featuresDir, feature);
-    if (!statSync(featureDir).isDirectory()) continue;
-
-    for (const layer of ["composables", "stores", "utils"] as ImportLayer[]) {
-      const layerDir = resolve(featureDir, layer);
-      if (existsSync(layerDir)) scanLayerDir(layerDir, feature, layer, imports);
-    }
-  }
-
-  return imports;
 }
 
 // ---------------------------------------------------------------------------
-// Watch paths
+// Watch paths (for new file/feature detection)
 // ---------------------------------------------------------------------------
 
 export function getFeatureImportsWatchPaths(): string[] {
   const featuresDir = resolve(FEATURES_DIR);
   const paths: string[] = [];
-
   if (!existsSync(featuresDir)) return paths;
 
   const layers = ["composables", "stores", "utils"];
 
   try {
-    const features = readdirSync(featuresDir);
-
-    for (const feature of features) {
+    for (const feature of getFeatureDirs(featuresDir)) {
       const featureDir = resolve(featuresDir, feature);
-      if (!statSync(featureDir).isDirectory()) continue;
-
       for (const layer of layers) {
         const layerDir = resolve(featureDir, layer);
         if (existsSync(layerDir)) paths.push(`${layerDir}/**/*.{ts,js}`);
       }
     }
-
-    // Wildcard — picks up newly created features without restart
+    // Catch newly created features
     for (const layer of layers) {
       paths.push(`${featuresDir}/*/${layer}/**/*.{ts,js}`);
     }
@@ -172,6 +57,13 @@ export function getFeatureImportsWatchPaths(): string[] {
 /**
  * Registers feature composables, stores and utils as Nuxt auto-imports.
  *
+ * Uses addImportsDir instead of imports:extend so that Nuxt's HMR pipeline
+ * watches the directories natively. This means:
+ *
+ *   - Export renamed inside existing file → picked up immediately, no restart
+ *   - New file added                      → picked up immediately, no restart
+ *   - File deleted                        → removed from import map on next HMR
+ *
  * Convention:
  *   features/todo/composables/useTodo.ts   → useTodo()
  *   features/todo/stores/todo.store.ts     → useTodoStore()
@@ -179,32 +71,53 @@ export function getFeatureImportsWatchPaths(): string[] {
  *
  * Types are intentionally excluded — import them explicitly:
  *   import type { Todo } from "~/features/todo/types/todo.types"
- *
- * Rename-safe: every dev server restart or file change triggers a full
- * re-scan, so stale names never linger in .nuxt/imports.d.ts.
  */
 export function setupFeatureImports(nuxt: Nuxt): void {
-  nuxt.hook("imports:extend", (imports) => {
-    const featureImports = scanFeatureImports();
-    const seenNames = new Map<string, string>();
+  const featuresDir = resolve(nuxt.options.rootDir, FEATURES_DIR);
+  const layers = ["composables", "stores", "utils"];
 
-    for (const fi of featureImports) {
-      if (seenNames.has(fi.name)) {
-        console.warn(
-          `[feature-imports] Duplicate export "${fi.name}".\n` +
-            `  Registered: ${seenNames.get(fi.name)}\n` +
-            `  Skipping:   ${fi.filePath}`,
-        );
-        continue;
-      }
+  if (!existsSync(featuresDir)) {
+    console.warn(`[feature-imports] Directory not found: ${featuresDir}`);
+    return;
+  }
 
-      seenNames.set(fi.name, fi.filePath);
-      imports.push({ name: fi.name, from: fi.filePath } as Import);
+  const features = getFeatureDirs(featuresDir);
+  let registeredDirs = 0;
+
+  for (const feature of features) {
+    const featureDir = resolve(featuresDir, feature);
+
+    for (const layer of layers) {
+      const layerDir = resolve(featureDir, layer);
+      if (!existsSync(layerDir)) continue;
+
+      // addImportsDir registers the directory with Nuxt's unimport instance.
+      // Nuxt watches these dirs natively — any export change (rename, add,
+      // delete) is reflected in .nuxt/imports.d.ts on the next HMR cycle
+      // without a server restart.
+      addImportsDir(layerDir);
+      registeredDirs++;
     }
+  }
 
-    console.info(
-      `[feature-imports] ${featureImports.length} export(s) registered ` +
-        `(composables, stores, utils)`,
-    );
+  // Also register future features via a hook — new features created with
+  // create:feature are picked up after a restart (unavoidable since the
+  // directory didn't exist when setup ran).
+  nuxt.hook("builder:watch", (event, relativePath) => {
+    if (event !== "addDir") return;
+    const absolutePath = resolve(nuxt.options.rootDir, relativePath);
+    if (!absolutePath.startsWith(featuresDir)) return;
+
+    const isLayerDir = layers.some((l) => absolutePath.endsWith(`/${l}`));
+    if (!isLayerDir) return;
+
+    addImportsDir(absolutePath);
+    // console.info(
+    //   `[feature-imports] New layer directory registered: ${relativePath}`,
+    // );
   });
+
+  // console.info(
+  //   `[feature-imports] Watching ${registeredDirs} director${registeredDirs === 1 ? "y" : "ies"} across ${features.length} feature(s)`,
+  // );
 }

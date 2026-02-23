@@ -4,12 +4,11 @@ interface Emits {
 }
 
 const emit = defineEmits<Emits>();
-
 const title = ref("");
 
 const handleSubmit = () => {
   if (title.value.trim()) {
-    emit("submit", title.value);
+    emit("submit", title.value.trim());
     title.value = "";
   }
 };
@@ -22,46 +21,51 @@ const handleSubmit = () => {
       type="text"
       placeholder="What needs to be done?"
       class="input"
-      required
     />
-
-    <button type="submit" class="submit-btn">Add Todo</button>
+    <button type="submit" class="submit-btn">Add</button>
   </form>
 </template>
 
 <style scoped>
 .todo-form {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .input {
   flex: 1;
   padding: 0.75rem 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  font-size: 1rem;
+  background: #111;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #e2e8f0;
   transition: border-color 0.2s;
+}
+
+.input::placeholder {
+  color: #4b5563;
 }
 
 .input:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: #00dc82;
 }
 
 .submit-btn {
   padding: 0.75rem 1.5rem;
-  background: #3b82f6;
-  color: white;
+  background: #00dc82;
+  color: #0f0f0f;
   border: none;
-  border-radius: 0.5rem;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: opacity 0.2s;
 }
 
 .submit-btn:hover {
-  background: #2563eb;
+  opacity: 0.85;
 }
 </style>

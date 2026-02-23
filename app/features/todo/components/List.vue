@@ -23,7 +23,6 @@ defineEmits<Emits>();
       @toggle="$emit('toggle', todo.id)"
       @delete="$emit('delete', todo.id)"
     />
-
     <FTodoEmpty v-if="todos.length === 0" />
   </div>
 </template>
