@@ -16,21 +16,10 @@ const completedCount = computed(() => store.completedCount);
 
 const filters: TodoFilter[] = ["all", "active", "completed"];
 
-const addTodo = (title: string) => {
-  store.addTodo(title);
-};
-
-const toggleTodo = (id: string) => {
-  store.toggleTodo(id);
-};
-
-const deleteTodo = (id: string) => {
-  store.deleteTodo(id);
-};
-
-const setFilter = (newFilter: TodoFilter) => {
-  store.setFilter(newFilter);
-};
+const addTodo = (title: string) => store.addTodo(title);
+const toggleTodo = (id: string) => store.toggleTodo(id);
+const deleteTodo = (id: string) => store.deleteTodo(id);
+const setFilter = (newFilter: TodoFilter) => store.setFilter(newFilter);
 </script>
 
 <template>
@@ -51,11 +40,10 @@ const setFilter = (newFilter: TodoFilter) => {
     </div>
 
     <FTodoForm @submit="addTodo" />
-
     <FTodoList :todos="todos" @toggle="toggleTodo" @delete="deleteTodo" />
 
     <div v-if="todos.length > 0" class="stats">
-      <p>{{ activeCount }} active, {{ completedCount }} completed</p>
+      <p>{{ activeCount }} active · {{ completedCount }} completed</p>
     </div>
   </div>
 </template>
@@ -75,8 +63,10 @@ const setFilter = (newFilter: TodoFilter) => {
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
+  font-weight: 700;
   margin: 0;
+  color: #e2e8f0;
 }
 
 .filters {
@@ -85,31 +75,37 @@ h1 {
 }
 
 .filter-btn {
-  padding: 0.5rem 1rem;
-  background: white;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
+  padding: 0.4rem 1rem;
+  background: #151515;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
   cursor: pointer;
   text-transform: capitalize;
+  color: #6b7280;
+  font-size: 0.875rem;
   transition: all 0.2s;
 }
 
 .filter-btn:hover {
-  border-color: #3b82f6;
+  border-color: #00dc82;
+  color: #e2e8f0;
 }
 
 .filter-btn.active {
-  background: #3b82f6;
-  color: white;
-  border-color: #3b82f6;
+  background: #00dc82;
+  color: #0f0f0f;
+  border-color: #00dc82;
+  font-weight: 600;
 }
 
 .stats {
-  margin-top: 2rem;
-  padding: 1rem;
-  background: #f9fafb;
-  border-radius: 0.5rem;
+  margin-top: 1.5rem;
+  padding: 0.875rem 1rem;
+  background: #151515;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
   text-align: center;
-  color: #6b7280;
+  color: #4b5563;
+  font-size: 0.875rem;
 }
 </style>

@@ -188,9 +188,9 @@ export function setupFeatureComponents(nuxt: Nuxt): void {
     }
 
     if (featureComponents.length > 0) {
-      console.info(
-        `[feature-components] Registered ${featureComponents.length}`,
-      );
+      // console.info(
+      //   `[feature-components] Registered ${featureComponents.length}`,
+      // );
     }
   });
 }
