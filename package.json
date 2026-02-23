@@ -1,6 +1,6 @@
 {
   "name": "nuxt4-feature-based-template",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "type": "module",
   "private": true,
   "scripts": {
