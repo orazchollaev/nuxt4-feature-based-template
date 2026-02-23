@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  useTodoStore,
-  type TodoFilter,
-  FTodoForm,
-  FTodoList,
-} from "~/features/todo";
+import type { TodoFilter } from "../types/todo.type";
 
 useSeoMeta({
   title: "Nuxt 4 Feature-Based Starter",

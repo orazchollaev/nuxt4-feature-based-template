@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Todo } from "../types";
+import type { Todo } from "../types/todo.type";
 
 interface Props {
   todo: Todo;

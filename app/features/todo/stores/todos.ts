@@ -1,4 +1,4 @@
-import type { Todo, TodoFilter } from "../types";
+import type { Todo, TodoFilter } from "../types/todo.type";
 
 export const useTodoStore = defineStore("todo", () => {
   const todos = ref<Todo[]>([
