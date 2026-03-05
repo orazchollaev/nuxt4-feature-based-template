@@ -3,7 +3,7 @@
 This project is a **Nuxt 4 feature-based template** designed to help you
 build scalable applications.
 
-Instead of organizing code by technical type (components, stores, etc.),
+Instead of organizing code by technical type (components, stores, pages, etc.),
 this template organizes everything by **feature**. Each feature contains
 its own components, composables, pages, stores, and other related files.
 
