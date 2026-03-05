@@ -5,6 +5,8 @@ import {
   getFeatureImportsWatchPaths,
   setupFeatureComponents,
   setupFeatureImports,
+  setupFeatureI18n,
+  getFeatureI18nWatchPaths,
 } from "./config/hooks/index";
 
 export default defineNuxtConfig({
@@ -17,7 +19,9 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    "@pinia/nuxt",
+    function featureI18nModule(_options, nuxt) {
+      setupFeatureI18n(nuxt);
+    },
 
     function featureComponentsModule(_options, nuxt) {
       setupFeatureComponents(nuxt);
@@ -26,18 +30,40 @@ export default defineNuxtConfig({
     function featureImportsModule(_options, nuxt) {
       setupFeatureImports(nuxt);
     },
+
+    "@nuxtjs/i18n",
+    "@pinia/nuxt",
   ],
 
-  css: ["~/assets/index.css"],
+  i18n: {
+    defaultLocale: "en",
+    strategy: "no_prefix",
 
-  app: {
-    pageTransition: { name: "page", mode: "out-in" },
+    locales: [
+      { file: "en.ts", code: "en", language: "en-US", name: "English" },
+      { file: "fr.ts", code: "fr", language: "fr-FR", name: "French" },
+    ],
+
+    langDir: "locales",
+    lazy: true,
+
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: "i18n_locale",
+      redirectOn: "root",
+      fallbackLocale: "en",
+    },
+
+    vueI18n: "./i18n/i18n.config.ts",
   },
+
+  css: ["~/assets/index.css"],
 
   watch: [
     ...getFeaturePagesWatchPaths(),
     ...getFeatureComponentsWatchPaths(),
     ...getFeatureImportsWatchPaths(),
+    ...getFeatureI18nWatchPaths(),
   ],
 
   hooks: {

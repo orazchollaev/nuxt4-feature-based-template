@@ -1,78 +1,89 @@
 <script setup lang="ts">
-useSeoMeta({
-  title: "Nuxt 4 Feature-Based Starter",
-  description:
-    "Scalable Nuxt 4 architecture with feature-based structure and auto routing",
+const { t } = useI18n();
+
+watchEffect(() => {
+  useSeoMeta({
+    title: t("home.hero.title"),
+    description: t("home.hero.description"),
+  });
 });
 </script>
 
 <template>
   <div class="home-page">
     <header class="hero">
-      <h1>Nuxt 4 Feature-Based Starter</h1>
+      <h1>{{ $t("home.hero.title") }}</h1>
       <p class="subtitle">
-        Scalable architecture with integrated routing and hot reload
+        {{ $t("home.hero.subtitle") }}
       </p>
     </header>
 
     <div class="features">
       <div class="feature-card">
         <div class="icon">📦</div>
-        <h2>Feature-Based</h2>
-        <p>Organize code by business domain, not file type</p>
+        <h2>{{ $t("home.features.featureBased.title") }}</h2>
+        <p>{{ $t("home.features.featureBased.desc") }}</p>
       </div>
 
       <div class="feature-card">
         <div class="icon">🧩</div>
-        <h2>Component Prefix</h2>
-        <p>
-          Feature components auto-imported as <code>&lt;f-todo-item /&gt;</code>
-        </p>
+        <h2>{{ $t("home.features.componentPrefix.title") }}</h2>
+        <p>{{ $t("home.features.componentPrefix.desc") }}</p>
       </div>
 
       <div class="feature-card">
         <div class="icon">🔥</div>
-        <h2>Hot Reload</h2>
-        <p>Add pages and components without restart</p>
+        <h2>{{ $t("home.features.hotReload.title") }}</h2>
+        <p>{{ $t("home.features.hotReload.desc") }}</p>
       </div>
 
       <div class="feature-card">
         <div class="icon">🚀</div>
-        <h2>Type-Safe</h2>
-        <p>Full TypeScript support out of the box</p>
+        <h2>{{ $t("home.features.typeSafe.title") }}</h2>
+        <p>{{ $t("home.features.typeSafe.desc") }}</p>
       </div>
 
       <div class="feature-card">
         <div class="icon">📍</div>
-        <h2>Auto Routing</h2>
-        <p>Pages inside features become routes automatically</p>
+        <h2>{{ $t("home.features.autoRouting.title") }}</h2>
+        <p>{{ $t("home.features.autoRouting.desc") }}</p>
       </div>
 
       <div class="feature-card">
         <div class="icon">⚡</div>
-        <h2>Auto Imports</h2>
-        <p>Composables, stores and utils available globally</p>
+        <h2>{{ $t("home.features.autoImports.title") }}</h2>
+        <p>{{ $t("home.features.autoImports.desc") }}</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">🌍</div>
+        <h2>{{ $t("home.features.i18n.title") }}</h2>
+        <p>{{ $t("home.features.i18n.desc") }}</p>
       </div>
     </div>
 
     <div class="quick-start">
-      <h2>Quick Start</h2>
+      <h2>{{ $t("home.quickStart.title") }}</h2>
+
       <div class="code-block">
         <code>npm run create:feature blog</code>
       </div>
+
       <p class="hint">
-        Creates feature with components, stores, pages and routes
+        {{ $t("home.quickStart.hint") }}
       </p>
     </div>
 
     <div class="structure">
-      <h2>Structure</h2>
+      <h2>{{ $t("home.structure.title") }}</h2>
+
       <pre><code>app/features/blog/
   ├── components/         → &lt;f-blog-card /&gt;
   ├── composables/        → useBlog()
   ├── stores/             → useBlogStore()
   ├── utils/              → formatPost()
   ├── types/              → import type { Post }
+  ├── locales/            → t('blog.title')
   └── pages/
       ├── index.vue       → /blog
       ├── create.vue      → /blog/create
@@ -80,11 +91,11 @@ useSeoMeta({
     </div>
 
     <div class="usage">
-      <h2>Usage</h2>
+      <h2>{{ $t("home.usage.title") }}</h2>
 
       <div class="usage-group">
         <p class="usage-label">
-          Components — auto-imported with feature prefix
+          {{ $t("home.usage.components") }}
         </p>
         <div class="code-block">
           <code>&lt;f-todo-item :todo="todo" /&gt;</code>
@@ -93,21 +104,36 @@ useSeoMeta({
 
       <div class="usage-group">
         <p class="usage-label">
-          Composables & stores — available globally, no import needed
+          {{ $t("home.usage.composables") }}
         </p>
         <div class="code-block">
-          <code
-            >const store = useTodoStore()<br />const { todos } = useTodo()</code
-          >
+          <code>
+            const store = useTodoStore()<br />
+            const { todos } = useTodo()
+          </code>
         </div>
       </div>
 
       <div class="usage-group">
-        <p class="usage-label">Types — explicit import for clarity</p>
+        <p class="usage-label">
+          {{ $t("home.usage.i18n") }}
+        </p>
         <div class="code-block">
-          <code
-            >import type { Todo } from '~/features/todo/types/todo.types'</code
-          >
+          <code>
+            const { t } = useI18n()<br />
+            t('blog.title')
+          </code>
+        </div>
+      </div>
+
+      <div class="usage-group">
+        <p class="usage-label">
+          {{ $t("home.usage.types") }}
+        </p>
+        <div class="code-block">
+          <code>
+            import type { Todo } from '~/features/todo/types/todo.types'
+          </code>
         </div>
       </div>
     </div>
@@ -120,8 +146,6 @@ useSeoMeta({
   margin: 0 auto;
   padding: 2rem;
 }
-
-/* ── Hero ─────────────────────────────────────────────────────────────── */
 
 .hero {
   text-align: center;
@@ -142,10 +166,7 @@ h1 {
 .subtitle {
   font-size: clamp(1rem, 2vw, 1.25rem);
   color: #6b7280;
-  margin-bottom: 0;
 }
-
-/* ── Feature cards ────────────────────────────────────────────────────── */
 
 .features {
   display: grid;
@@ -187,34 +208,6 @@ h1 {
   margin: 0;
 }
 
-.feature-card code {
-  font-family: "Courier New", monospace;
-  font-size: 0.82rem;
-  background: #1e1e1e;
-  border: 1px solid #333;
-  padding: 0.1rem 0.35rem;
-  border-radius: 4px;
-  color: #00dc82;
-}
-
-/* ── Sections ─────────────────────────────────────────────────────────── */
-
-.quick-start,
-.structure {
-  margin: 4rem 0;
-  text-align: center;
-}
-
-.quick-start h2,
-.structure h2 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: #e2e8f0;
-}
-
-/* ── Code block ───────────────────────────────────────────────────────── */
-
 .code-block {
   background: #111;
   color: #00dc82;
@@ -223,20 +216,23 @@ h1 {
   border: 1px solid #1e1e1e;
   margin: 0.75rem auto;
   max-width: 600px;
-  font-family: "Courier New", monospace;
+  font-family: monospace;
   font-size: 0.95rem;
   overflow-x: auto;
   text-align: left;
   line-height: 1.7;
 }
 
-.hint {
-  font-size: 0.875rem;
-  color: #4b5563;
-  margin-top: 0.5rem;
+.quick-start,
+.structure {
+  margin: 4rem 0;
+  text-align: center;
 }
 
-/* ── Structure ────────────────────────────────────────────────────────── */
+.usage {
+  margin: 4rem auto;
+  max-width: 600px;
+}
 
 .structure pre {
   background: #111;
@@ -254,62 +250,5 @@ h1 {
   font-size: 0.875rem;
   color: #6b9fd4;
   line-height: 1.9;
-}
-
-/* ── Usage ────────────────────────────────────────────────────────────── */
-
-.usage {
-  margin: 4rem auto;
-  max-width: 600px;
-}
-
-.usage h2 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  color: #e2e8f0;
-}
-
-.usage-group {
-  margin-bottom: 2rem;
-}
-
-.usage-label {
-  font-size: 0.75rem;
-  color: #4b5563;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-/* ── Responsive ───────────────────────────────────────────────────────── */
-
-@media (max-width: 768px) {
-  .home-page {
-    padding: 1rem;
-  }
-
-  .hero {
-    padding: 2rem 0;
-  }
-
-  .features {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .feature-card {
-    padding: 1.5rem;
-  }
-
-  .code-block {
-    font-size: 0.82rem;
-    padding: 1rem;
-  }
-
-  .structure pre {
-    padding: 1rem;
-    font-size: 0.8rem;
-  }
 }
 </style>

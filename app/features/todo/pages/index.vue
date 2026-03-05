@@ -14,7 +14,11 @@ const filter = computed(() => store.filter);
 const activeCount = computed(() => store.activeCount);
 const completedCount = computed(() => store.completedCount);
 
-const filters: TodoFilter[] = ["all", "active", "completed"];
+const filters: { id: TodoFilter; text: any }[] = [
+  { id: "all", text: () => $t("todo.all") },
+  { id: "active", text: () => $t("todo.active") },
+  { id: "completed", text: () => $t("todo.completed") },
+];
 
 const addTodo = (title: string) => store.addTodo(title);
 const toggleTodo = (id: string) => store.toggleTodo(id);
@@ -25,16 +29,16 @@ const setFilter = (newFilter: TodoFilter) => store.setFilter(newFilter);
 <template>
   <div class="todo-page">
     <div class="header">
-      <h1>Todo App</h1>
+      <h1>{{ $t("todo.appName") }}</h1>
       <div class="filters">
         <button
           v-for="f in filters"
-          :key="f"
-          @click="setFilter(f)"
-          :class="{ active: filter === f }"
+          :key="f.id"
+          @click="setFilter(f.id)"
+          :class="{ active: filter === f.id }"
           class="filter-btn"
         >
-          {{ f }}
+          {{ f.text() }}
         </button>
       </div>
     </div>
@@ -43,7 +47,10 @@ const setFilter = (newFilter: TodoFilter) => store.setFilter(newFilter);
     <FTodoList :todos="todos" @toggle="toggleTodo" @delete="deleteTodo" />
 
     <div v-if="todos.length > 0" class="stats">
-      <p>{{ activeCount }} active · {{ completedCount }} completed</p>
+      <p>
+        {{ activeCount }} {{ $t("todo.active") }} · {{ completedCount }}
+        {{ $t("todo.completed") }}
+      </p>
     </div>
   </div>
 </template>

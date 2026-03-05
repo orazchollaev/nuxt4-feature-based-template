@@ -1,15 +1,38 @@
 <script setup lang="ts">
-// Header component
+const { locale, locales, setLocale } = useI18n();
+
+const toggleLocale = async () => {
+  const available = locales.value.map((l) =>
+    typeof l === "string" ? l : l.code,
+  );
+
+  const next = available.find((l) => l !== locale.value);
+  if (next) await setLocale(next);
+};
 </script>
 
 <template>
   <header class="header">
     <div class="container">
-      <NuxtLink to="/" class="logo">OrazChollaev</NuxtLink>
+      <NuxtLink
+        to="https://github.com/orazchollaev"
+        target="_blank"
+        class="logo"
+        >OrazChollaev</NuxtLink
+      >
 
       <nav class="nav">
-        <NuxtLink to="/" class="nav-link">Home</NuxtLink>
-        <NuxtLink to="/todo" class="nav-link">Todo</NuxtLink>
+        <NuxtLink to="/" class="nav-link">
+          {{ $t("layout.nav.home") }}
+        </NuxtLink>
+
+        <NuxtLink to="/todo" class="nav-link">
+          {{ $t("layout.nav.todo") }}
+        </NuxtLink>
+
+        <button class="lang-toggle" @click="toggleLocale">
+          {{ locale.toUpperCase() }}
+        </button>
       </nav>
     </div>
   </header>
@@ -49,6 +72,7 @@
 
 .nav {
   display: flex;
+  align-items: center;
   gap: 2rem;
 }
 
@@ -77,5 +101,21 @@
   right: 0;
   height: 2px;
   background: #00dc82;
+}
+
+.lang-toggle {
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: #f1f1f1;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.lang-toggle:hover {
+  border-color: #00dc82;
+  color: #00dc82;
 }
 </style>

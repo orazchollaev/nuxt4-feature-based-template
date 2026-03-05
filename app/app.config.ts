@@ -1,1 +1,3 @@
-export default defineAppConfig({});
+export default defineAppConfig({
+  version: "v2.0",
+});

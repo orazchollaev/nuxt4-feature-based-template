@@ -19,10 +19,10 @@ const handleSubmit = () => {
     <input
       v-model="title"
       type="text"
-      placeholder="What needs to be done?"
+      :placeholder="$t('todo.inputPlaceholder')"
       class="input"
     />
-    <button type="submit" class="submit-btn">Add</button>
+    <button type="submit" class="submit-btn">{{ $t("todo.add") }}</button>
   </form>
 </template>
 

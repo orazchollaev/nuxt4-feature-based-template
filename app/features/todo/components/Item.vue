@@ -23,7 +23,9 @@ defineEmits<Emits>();
       class="checkbox"
     />
     <span class="title">{{ todo.title }}</span>
-    <button @click="$emit('delete')" class="delete-btn">Delete</button>
+    <button @click="$emit('delete')" class="delete-btn">
+      {{ $t("todo.delete") }}
+    </button>
   </div>
 </template>
 

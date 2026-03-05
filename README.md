@@ -1,77 +1,166 @@
 # Nuxt 4 Feature-Based Starter
 
-Minimal Nuxt 4 starter with feature-based architecture and full HMR support.
+This project is a **Nuxt 4 feature-based template** designed to help you
+build scalable applications.
 
-## Structure
+Instead of organizing code by technical type (components, stores, etc.),
+this template organizes everything by **feature**. Each feature contains
+its own components, composables, pages, stores, and other related files.
 
-```
-app/
-├── features/
-│   └── [feature-name]/
-│       ├── components/     # <f-[feature]-[name] />
-│       ├── composables/    # auto-imported
-│       ├── stores/         # auto-imported
-│       ├── utils/          # auto-imported
-│       ├── types/          # explicit import only
-│       └── pages/          # auto-registered routes
-└── ...
-```
+This makes large projects easier to maintain and scale.
 
-## Setup
+---
 
-```bash
-npm install
-npm run dev
-npm run build
-```
+# Project Structure
 
-## Create a Feature
+All features live inside:
 
-```bash
-npm run create:feature blog
-```
+    app/features/
 
-## Routing
+Example structure:
 
-```
-features/blog/pages/index.vue    → /blog
-features/blog/pages/[slug].vue   → /blog/:slug
-```
+    app/
+    └── features/
+        └── todo/
+            ├── components/
+            ├── composables/
+            ├── stores/
+            ├── types/
+            ├── pages/
+            └── locales/
 
-## Component Auto-Import
+Each feature manages its own logic and files.
 
-Components are prefixed with `f-[feature]-` to avoid conflicts:
+---
 
-```
-features/todo/components/Item.vue   → <f-todo-item />
-features/blog/components/Card.vue   → <f-blog-card />
-```
+# Features
 
-## Composable & Store Auto-Import
+Each feature can contain the following folders:
 
-Everything in `composables/`, `stores/`, and `utils/` is available globally — no imports needed:
+Folder Description
+
+---
+
+`components` Vue components for the feature
+`composables` Feature composables (auto-imported)
+`stores` Pinia stores (auto-imported)
+`types` TypeScript types (manual import)
+`pages` Route pages for the feature
+`locales` i18n translation files
+
+---
+
+# Component Auto Import
+
+Components inside a feature are automatically imported with a **feature
+prefix**.
+
+Example file:
+
+    app/features/todo/components/Item.vue
+
+Can be used anywhere like this:
 
 ```vue
-<script setup lang="ts">
-const store = useTodoStore();
-const { items } = useTodo();
-</script>
+<FTodoItem />
 ```
 
-## Types
+This prevents component name conflicts between features.
 
-Import types explicitly:
+---
+
+# Composables & Stores
+
+Everything inside these folders is **auto-imported globally**:
+
+    composables/
+    stores/
+
+Example:
 
 ```ts
-import type { Todo } from "~/features/todo/types/todo.types";
+const store = useTodoStore();
+const { todos } = useTodo();
 ```
 
-## Rules
+No manual imports are required.
 
-- Each feature has one entry point — there are no barrel exports (`index.ts`)
-- No cross-feature deep imports
-- Pages live inside the feature directory
+---
 
-## License
+# Types
+
+Types are **not auto-imported**.
+
+You must import them manually:
+
+```ts
+import type { Todo } from "~/features/todo/types/todo";
+```
+
+---
+
+# Pages and Routing
+
+Pages inside a feature automatically create routes.
+
+Example:
+
+    app/features/todo/pages/index.vue
+
+Route:
+
+    /todo
+
+Example:
+
+    app/features/todo/pages/active.vue
+
+Route:
+
+    /todo/active
+
+---
+
+# Locales (i18n)
+
+Each feature can contain its own translation files.
+
+Example:
+
+    app/features/todo/locales/en.ts
+
+Usage:
+
+```ts
+t("todo.add");
+```
+
+Locales work the same as standard Nuxt i18n files.
+
+---
+
+# Setup
+
+Install dependencies:
+
+```bash
+pnpm install
+```
+
+Run development server:
+
+```bash
+pnpm dev
+```
+
+Build for production:
+
+```bash
+pnpm build
+```
+
+---
+
+# License
 
 MIT
