@@ -1,3 +1,7 @@
+<script setup lang="ts">
+// App layout wrapper
+</script>
+
 <template>
   <NuxtLayout>
     <main>
@@ -5,9 +9,5 @@
     </main>
   </NuxtLayout>
 </template>
-
-<script setup lang="ts">
-// App layout wrapper
-</script>
 
 <style></style>

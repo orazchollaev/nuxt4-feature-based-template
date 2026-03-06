@@ -1,16 +1,20 @@
 // Todo Types
 
 export interface Todo {
-  id: string;
-  title: string;
-  completed: boolean;
-  createdAt: Date;
+  id: string
+  title: string
+  completed: boolean
+  createdAt: Date
 }
 
 export interface TodoState {
-  todos: Todo[];
-  loading: boolean;
-  error: string | null;
+  todos: Todo[]
+  loading: boolean
+  error: string | null
 }
 
-export type TodoFilter = "all" | "active" | "completed";
+export type TodoFilterType = "all" | "active" | "completed"
+export type TodoFilterItem = {
+  id: TodoFilterType
+  text: () => string
+}

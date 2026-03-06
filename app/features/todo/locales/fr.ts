@@ -8,4 +8,4 @@ export default {
     inputPlaceholder: "Que faut-il faire ?",
     delete: "Supprimer",
   },
-};
+}

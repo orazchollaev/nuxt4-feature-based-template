@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import type { Todo } from "../types/todo.type";
+import type { Todo } from "../types/todo.type"
 
 interface Props {
-  todos: Todo[];
+  todos: Todo[]
 }
 
 interface Emits {
-  (e: "toggle", id: string): void;
-  (e: "delete", id: string): void;
+  (e: "toggle" | "delete", id: string): void
 }
 
-defineProps<Props>();
-defineEmits<Emits>();
+defineProps<Props>()
+defineEmits<Emits>()
 </script>
 
 <template>

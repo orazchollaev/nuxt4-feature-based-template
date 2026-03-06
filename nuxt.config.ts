@@ -7,7 +7,7 @@ import {
   setupFeatureImports,
   setupFeatureI18n,
   getFeatureI18nWatchPaths,
-} from "./config/hooks/index";
+} from "./config/hooks/index"
 
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
@@ -20,18 +20,19 @@ export default defineNuxtConfig({
 
   modules: [
     function featureI18nModule(_options, nuxt) {
-      setupFeatureI18n(nuxt);
+      setupFeatureI18n(nuxt)
     },
 
     function featureComponentsModule(_options, nuxt) {
-      setupFeatureComponents(nuxt);
+      setupFeatureComponents(nuxt)
     },
 
     function featureImportsModule(_options, nuxt) {
-      setupFeatureImports(nuxt);
+      setupFeatureImports(nuxt)
     },
 
     "@nuxtjs/i18n",
+    "@nuxt/eslint",
     "@pinia/nuxt",
   ],
 
@@ -69,4 +70,4 @@ export default defineNuxtConfig({
   hooks: {
     "pages:extend": featureBasedPagesHook,
   },
-});
+})

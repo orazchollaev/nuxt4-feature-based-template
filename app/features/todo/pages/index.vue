@@ -1,29 +1,28 @@
 <script setup lang="ts">
-import type { TodoFilter } from "../types/todo.type";
+import type { TodoFilterItem, TodoFilterType } from "../types/todo.type"
 
 useSeoMeta({
   title: "Nuxt 4 Feature-Based Starter",
-  description:
-    "Scalable Nuxt 4 architecture with feature-based structure and auto routing",
-});
+  description: "Scalable Nuxt 4 architecture with feature-based structure and auto routing",
+})
 
-const store = useTodoStore();
+const store = useTodoStore()
 
-const todos = computed(() => store.todos);
-const filter = computed(() => store.filter);
-const activeCount = computed(() => store.activeCount);
-const completedCount = computed(() => store.completedCount);
+const todos = computed(() => store.todos)
+const filter = computed(() => store.filter)
+const activeCount = computed(() => store.activeCount)
+const completedCount = computed(() => store.completedCount)
 
-const filters: { id: TodoFilter; text: any }[] = [
+const filters: TodoFilterItem[] = [
   { id: "all", text: () => $t("todo.all") },
   { id: "active", text: () => $t("todo.active") },
   { id: "completed", text: () => $t("todo.completed") },
-];
+]
 
-const addTodo = (title: string) => store.addTodo(title);
-const toggleTodo = (id: string) => store.toggleTodo(id);
-const deleteTodo = (id: string) => store.deleteTodo(id);
-const setFilter = (newFilter: TodoFilter) => store.setFilter(newFilter);
+const addTodo = (title: string) => store.addTodo(title)
+const toggleTodo = (id: string) => store.toggleTodo(id)
+const deleteTodo = (id: string) => store.deleteTodo(id)
+const setFilter = (newFilter: TodoFilterType) => store.setFilter(newFilter)
 </script>
 
 <template>
@@ -34,9 +33,9 @@ const setFilter = (newFilter: TodoFilter) => store.setFilter(newFilter);
         <button
           v-for="f in filters"
           :key="f.id"
-          @click="setFilter(f.id)"
           :class="{ active: filter === f.id }"
           class="filter-btn"
+          @click="setFilter(f.id)"
         >
           {{ f.text() }}
         </button>

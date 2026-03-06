@@ -1,16 +1,16 @@
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import fs from "fs"
+import path from "path"
+import { fileURLToPath } from "url"
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // ---------------------------------------------------------------------------
 // Args & flags
 // ---------------------------------------------------------------------------
 
-const args = process.argv.slice(2);
-const featureName = args.find((a) => !a.startsWith("--"));
+const args = process.argv.slice(2)
+const featureName = args.find((a) => !a.startsWith("--"))
 
 const flags = {
   withStore: args.includes("--with-store"),
@@ -18,61 +18,52 @@ const flags = {
   withPage: !args.includes("--no-page"),
   withComponent: !args.includes("--no-component"),
   all: args.includes("--all"),
-};
+}
 
 // --all enables everything
 if (flags.all) {
-  flags.withStore = true;
-  flags.withI18n = true;
+  flags.withStore = true
+  flags.withI18n = true
 }
 
 if (!featureName) {
-  console.error("Feature name not specified!");
-  console.error("Usage: npm run create:feature <featureName> [flags]\n");
-  console.error("Flags:");
-  console.error("  --with-store      Include Pinia store");
-  console.error("  --with-i18n       Include locale files (tr / en)");
-  console.error("  --no-page         Skip pages/index.vue");
-  console.error("  --no-component    Skip components/Empty.vue");
-  console.error("  --all             Enable all optional flags");
-  process.exit(1);
+  console.error("Feature name not specified!")
+  console.error("Usage: npm run create:feature <featureName> [flags]\n")
+  console.error("Flags:")
+  console.error("  --with-store      Include Pinia store")
+  console.error("  --with-i18n       Include locale files (tr / en)")
+  console.error("  --no-page         Skip pages/index.vue")
+  console.error("  --no-component    Skip components/Empty.vue")
+  console.error("  --all             Enable all optional flags")
+  process.exit(1)
 }
 
 if (!/^[a-z0-9-]+$/.test(featureName)) {
-  console.error(
-    "Feature name can only contain lowercase letters, numbers and hyphens (-)!",
-  );
-  process.exit(1);
+  console.error("Feature name can only contain lowercase letters, numbers and hyphens (-)!")
+  process.exit(1)
 }
 
-const featurePath = path.join(
-  __dirname,
-  "..",
-  "..",
-  "app",
-  "features",
-  featureName,
-);
+const featurePath = path.join(__dirname, "..", "..", "app", "features", featureName)
 
 if (fs.existsSync(featurePath)) {
-  console.error(`Feature folder already exists: ${featurePath}`);
-  process.exit(1);
+  console.error(`Feature folder already exists: ${featurePath}`)
+  process.exit(1)
 }
 
 function capitalize(str) {
   return str
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join("");
+    .join("")
 }
 
-const C = capitalize(featureName); // e.g. "TodoItem"
+const C = capitalize(featureName) // e.g. "TodoItem"
 
 // ---------------------------------------------------------------------------
 // File contents
 // ---------------------------------------------------------------------------
 
-const files = {};
+const files = {}
 
 // ── Types (always) ──────────────────────────────────────────────────────────
 files["types/index.ts"] = `// ${C} — Types
@@ -83,7 +74,7 @@ export interface ${C} {
   createdAt: Date;
   updatedAt: Date;
 }
-`;
+`
 
 // ── Composable (always) ─────────────────────────────────────────────────────
 files[`composables/use${C}.ts`] = `import type { ${C} } from '../types';
@@ -110,12 +101,11 @@ export const use${C} = () => {
 
   return { items, loading, error, fetchItems };
 };
-`;
+`
 
 // ── Store (--with-store) ─────────────────────────────────────────────────────
 if (flags.withStore) {
-  files[`stores/${featureName}.store.ts`] =
-    `import type { ${C} } from '../types';
+  files[`stores/${featureName}.store.ts`] = `import type { ${C} } from '../types';
 
 // Auto-imported globally — no import needed in .vue files
 export const use${C}Store = defineStore('${featureName}', () => {
@@ -139,7 +129,7 @@ export const use${C}Store = defineStore('${featureName}', () => {
 
   return { items, loading, error, fetchItems };
 });
-`;
+`
 }
 
 // ── Component (--no-component to skip) ──────────────────────────────────────
@@ -162,37 +152,35 @@ if (flags.withComponent) {
   font-size: 0.95rem;
 }
 </style>
-`;
+`
 }
 
 // ── i18n locale files (--with-i18n) ─────────────────────────────────────────
 if (flags.withI18n) {
-  files["locales/tr.ts"] =
-    `// Auto-namespaced as t('${featureName}.*') by feature-i18n hook
+  files["locales/tr.ts"] = `// Auto-namespaced as t('${featureName}.*') by feature-i18n hook
 export default {
   ${featureName}: {
     name: '${C}',
   },
 };
-`;
+`
 
-  files["locales/en.ts"] =
-    `// Auto-namespaced as t('${featureName}.*') by feature-i18n hook
+  files["locales/en.ts"] = `// Auto-namespaced as t('${featureName}.*') by feature-i18n hook
 export default {
   ${featureName}: {
     name: '${C}',
   },
 };
-`;
+`
 }
 
 // ── Page (--no-page to skip) ─────────────────────────────────────────────────
 if (flags.withPage) {
-  const storeImport = flags.withStore ? `\nconst store = use${C}Store();` : "";
+  const storeImport = flags.withStore ? `\nconst store = use${C}Store();` : ""
 
-  const i18nSetup = flags.withI18n ? `\nconst { t } = useI18n();` : "";
+  const i18nSetup = flags.withI18n ? `\nconst { t } = useI18n();` : ""
 
-  const titleLine = flags.withI18n ? `t('${featureName}.name')` : `'${C}'`;
+  const titleLine = flags.withI18n ? `t('${featureName}.name')` : `'${C}'`
 
   files["pages/index.vue"] = `<script setup lang="ts">
 import type { ${C} } from '~/features/${featureName}/types';
@@ -227,57 +215,56 @@ onMounted(() => fetchItems());
   gap: 1rem;
 }
 </style>
-`;
+`
 }
 
 // ---------------------------------------------------------------------------
 // Create directories and files
 // ---------------------------------------------------------------------------
 
-const dirs = ["components", "composables", "types", "pages"];
-if (flags.withStore) dirs.push("stores");
-if (flags.withI18n) dirs.push("locales");
+const dirs = ["components", "composables", "types", "pages"]
+if (flags.withStore) dirs.push("stores")
+if (flags.withI18n) dirs.push("locales")
 
 try {
   for (const dir of dirs) {
-    fs.mkdirSync(path.join(featurePath, dir), { recursive: true });
+    fs.mkdirSync(path.join(featurePath, dir), { recursive: true })
   }
 
   for (const [filePath, content] of Object.entries(files)) {
-    const fullPath = path.join(featurePath, filePath);
-    fs.mkdirSync(path.dirname(fullPath), { recursive: true });
-    fs.writeFileSync(fullPath, content);
+    const fullPath = path.join(featurePath, filePath)
+    fs.mkdirSync(path.dirname(fullPath), { recursive: true })
+    fs.writeFileSync(fullPath, content)
   }
 
   // ---------------------------------------------------------------------------
   // Success output
   // ---------------------------------------------------------------------------
 
-  const created = Object.keys(files);
+  const created = Object.keys(files)
 
-  console.log(`\n✓ Feature "${featureName}" created\n`);
-  console.log("Structure:\n");
-  console.log(`  app/features/${featureName}/`);
-  created.forEach((f) => console.log(`    ${f}`));
+  console.info(`\n✓ Feature "${featureName}" created\n`)
+  console.info("Structure:\n")
+  console.info(`  app/features/${featureName}/`)
+  created.forEach((f) => console.info(`    ${f}`))
 
-  console.log("\nRoutes:");
+  console.info("\nRoutes:")
   if (flags.withPage) {
-    console.log(`  /${featureName}  →  pages/index.vue`);
+    console.info(`  /${featureName}  →  pages/index.vue`)
   } else {
-    console.log("  (no pages created)");
+    console.info("  (no pages created)")
   }
 
-  console.log("\nAuto-imports (no import statement needed):");
-  console.log(`  use${C}()         composable`);
-  if (flags.withStore) console.log(`  use${C}Store()    store`);
-  if (flags.withComponent)
-    console.log(`  <f-${featureName}-empty />  component`);
-  if (flags.withI18n) console.log(`  t('${featureName}.*')       i18n keys`);
+  console.info("\nAuto-imports (no import statement needed):")
+  console.info(`  use${C}()         composable`)
+  if (flags.withStore) console.info(`  use${C}Store()    store`)
+  if (flags.withComponent) console.info(`  <f-${featureName}-empty />  component`)
+  if (flags.withI18n) console.info(`  t('${featureName}.*')       i18n keys`)
 
-  console.log("\nExplicit import required:");
-  console.log(`  import type { ${C} } from '~/features/${featureName}/types'`);
-  console.log("");
+  console.info("\nExplicit import required:")
+  console.info(`  import type { ${C} } from '~/features/${featureName}/types'`)
+  console.info("")
 } catch (err) {
-  console.error("Error occurred:", err.message);
-  process.exit(1);
+  console.error("Error occurred:", err.message)
+  process.exit(1)
 }

@@ -1,8 +1,5 @@
 <script setup lang="ts">
-const { version } = useAppConfig();
-const { t } = useI18n();
-
-const year = computed(() => new Date().getFullYear());
+const { version } = useAppConfig()
 </script>
 
 <template>

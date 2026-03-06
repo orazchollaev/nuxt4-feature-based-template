@@ -1,12 +1,12 @@
 <script setup lang="ts">
-const { t } = useI18n();
+const { t } = useI18n()
 
 watchEffect(() => {
   useSeoMeta({
     title: t("home.hero.title"),
     description: t("home.hero.description"),
-  });
-});
+  })
+})
 </script>
 
 <template>
@@ -108,7 +108,8 @@ watchEffect(() => {
         </p>
         <div class="code-block">
           <code>
-            const store = useTodoStore()<br />
+            const store = useTodoStore()
+            <br />
             const { todos } = useTodo()
           </code>
         </div>
@@ -120,7 +121,8 @@ watchEffect(() => {
         </p>
         <div class="code-block">
           <code>
-            const { t } = useI18n()<br />
+            const { t } = useI18n()
+            <br />
             t('blog.title')
           </code>
         </div>
@@ -131,9 +133,7 @@ watchEffect(() => {
           {{ $t("home.usage.types") }}
         </p>
         <div class="code-block">
-          <code>
-            import type { Todo } from '~/features/todo/types/todo.types'
-          </code>
+          <code>import type { Todo } from '~/features/todo/types/todo.types'</code>
         </div>
       </div>
     </div>
@@ -246,9 +246,8 @@ h1 {
 }
 
 .structure code {
-  font-family: "Courier New", monospace;
+  color: #00dc82;
   font-size: 0.875rem;
-  color: #6b9fd4;
   line-height: 1.9;
 }
 </style>

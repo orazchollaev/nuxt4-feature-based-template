@@ -1,14 +1,14 @@
-import { resolve } from "pathe";
-import { readdirSync, existsSync, statSync } from "node:fs";
-import type { Nuxt } from "nuxt/schema";
+import { resolve } from "pathe"
+import { readdirSync, existsSync, statSync } from "node:fs"
+import type { Nuxt } from "nuxt/schema"
 
-const FEATURES_DIR = "./app/features";
+const FEATURES_DIR = "./app/features"
 
 interface FeatureLocale {
-  featureName: string;
-  lang: string;
-  fileName: string;
-  localesDir: string;
+  featureName: string
+  lang: string
+  fileName: string
+  localesDir: string
 }
 
 /**
@@ -18,39 +18,39 @@ interface FeatureLocale {
  *   features/blog/locales/en.ts  → t('blog.*')
  */
 function scanFeatureLocales(): FeatureLocale[] {
-  const featuresDir = resolve(FEATURES_DIR);
-  const locales: FeatureLocale[] = [];
+  const featuresDir = resolve(FEATURES_DIR)
+  const locales: FeatureLocale[] = []
 
   if (!existsSync(featuresDir)) {
-    return locales;
+    return locales
   }
 
   try {
-    const features = readdirSync(featuresDir);
+    const features = readdirSync(featuresDir)
 
     for (const feature of features) {
-      const featureDir = resolve(featuresDir, feature);
-      if (!statSync(featureDir).isDirectory()) continue;
+      const featureDir = resolve(featuresDir, feature)
+      if (!statSync(featureDir).isDirectory()) continue
 
-      const localesDir = resolve(featureDir, "locales");
-      if (!existsSync(localesDir)) continue;
+      const localesDir = resolve(featureDir, "locales")
+      if (!existsSync(localesDir)) continue
 
       for (const fileName of readdirSync(localesDir)) {
-        if (!fileName.endsWith(".ts")) continue;
+        if (!fileName.endsWith(".ts")) continue
 
         locales.push({
           featureName: feature,
           lang: fileName.replace(".ts", ""),
           fileName,
           localesDir,
-        });
+        })
       }
     }
   } catch (error) {
-    console.error("[feature-i18n] Failed to scan:", error);
+    console.error("[feature-i18n] Failed to scan:", error)
   }
 
-  return locales;
+  return locales
 }
 
 /**
@@ -58,30 +58,30 @@ function scanFeatureLocales(): FeatureLocale[] {
  * Enables HMR when new locale files are added/removed.
  */
 export function getFeatureI18nWatchPaths(): string[] {
-  const featuresDir = resolve(FEATURES_DIR);
-  const watchPaths: string[] = [];
+  const featuresDir = resolve(FEATURES_DIR)
+  const watchPaths: string[] = []
 
-  if (!existsSync(featuresDir)) return watchPaths;
+  if (!existsSync(featuresDir)) return watchPaths
 
   try {
-    const features = readdirSync(featuresDir);
+    const features = readdirSync(featuresDir)
 
     for (const feature of features) {
-      const featureDir = resolve(featuresDir, feature);
-      if (!statSync(featureDir).isDirectory()) continue;
+      const featureDir = resolve(featuresDir, feature)
+      if (!statSync(featureDir).isDirectory()) continue
 
-      const localesDir = resolve(featureDir, "locales");
-      if (!existsSync(localesDir)) continue;
+      const localesDir = resolve(featureDir, "locales")
+      if (!existsSync(localesDir)) continue
 
-      watchPaths.push(`${localesDir}/**/*.ts`);
+      watchPaths.push(`${localesDir}/**/*.ts`)
     }
 
-    watchPaths.push(`${featuresDir}/*/locales/**/*.ts`);
+    watchPaths.push(`${featuresDir}/*/locales/**/*.ts`)
   } catch (error) {
-    console.error("[feature-i18n] Failed to get watch paths:", error);
+    console.error("[feature-i18n] Failed to get watch paths:", error)
   }
 
-  return watchPaths;
+  return watchPaths
 }
 
 /**
@@ -111,42 +111,40 @@ export function getFeatureI18nWatchPaths(): string[] {
  */
 export function setupFeatureI18n(nuxt: Nuxt): void {
   nuxt.hook("i18n:registerModule", (register) => {
-    const featureLocales = scanFeatureLocales();
+    const featureLocales = scanFeatureLocales()
 
-    if (featureLocales.length === 0) return;
+    if (featureLocales.length === 0) return
 
     // Group by feature — each feature gets its own register() call
     // with langDir pointing directly to features/[name]/locales/.
     const byFeature = featureLocales.reduce(
       (acc, item) => {
-        (acc[item.featureName] ??= []).push(item);
-        return acc;
+        ;(acc[item.featureName] ??= []).push(item)
+        return acc
       },
-      {} as Record<string, FeatureLocale[]>,
-    );
+      {} as Record<string, FeatureLocale[]>
+    )
 
     for (const [featureName, locales] of Object.entries(byFeature)) {
-      const { localesDir } = locales[0];
+      const { localesDir } = locales[0]
 
-      const seen = new Set<string>();
-      const localeEntries: { code: string; file: string }[] = [];
+      const seen = new Set<string>()
+      const localeEntries: { code: string; file: string }[] = []
 
       for (const { lang, fileName } of locales) {
         if (seen.has(lang)) {
-          console.warn(
-            `[feature-i18n] Duplicate locale "${featureName}/${lang}" — skipping`,
-          );
-          continue;
+          console.warn(`[feature-i18n] Duplicate locale "${featureName}/${lang}" — skipping`)
+          continue
         }
-        seen.add(lang);
+        seen.add(lang)
 
-        localeEntries.push({ code: lang, file: fileName });
+        localeEntries.push({ code: lang, file: fileName })
       }
 
       register({
         langDir: localesDir,
         locales: localeEntries,
-      });
+      })
     }
-  });
+  })
 }

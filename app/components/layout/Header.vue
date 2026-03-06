@@ -1,25 +1,20 @@
 <script setup lang="ts">
-const { locale, locales, setLocale } = useI18n();
+const { locale, locales, setLocale } = useI18n()
 
 const toggleLocale = async () => {
-  const available = locales.value.map((l) =>
-    typeof l === "string" ? l : l.code,
-  );
+  const available = locales.value.map((l) => (typeof l === "string" ? l : l.code))
 
-  const next = available.find((l) => l !== locale.value);
-  if (next) await setLocale(next);
-};
+  const next = available.find((l) => l !== locale.value)
+  if (next) await setLocale(next)
+}
 </script>
 
 <template>
   <header class="header">
     <div class="container">
-      <NuxtLink
-        to="https://github.com/orazchollaev"
-        target="_blank"
-        class="logo"
-        >OrazChollaev</NuxtLink
-      >
+      <NuxtLink to="https://github.com/orazchollaev" target="_blank" class="logo">
+        OrazChollaev
+      </NuxtLink>
 
       <nav class="nav">
         <NuxtLink to="/" class="nav-link">

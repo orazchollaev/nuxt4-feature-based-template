@@ -1,29 +1,23 @@
 <script setup lang="ts">
-import type { Todo } from "../types/todo.type";
+import type { Todo } from "../types/todo.type"
 
 interface Props {
-  todo: Todo;
+  todo: Todo
 }
 
 interface Emits {
-  (e: "toggle"): void;
-  (e: "delete"): void;
+  (e: "toggle" | "delete"): void
 }
 
-defineProps<Props>();
-defineEmits<Emits>();
+defineProps<Props>()
+defineEmits<Emits>()
 </script>
 
 <template>
   <div class="todo-item" :class="{ completed: todo.completed }">
-    <input
-      type="checkbox"
-      :checked="todo.completed"
-      @change="$emit('toggle')"
-      class="checkbox"
-    />
+    <input type="checkbox" :checked="todo.completed" class="checkbox" @change="$emit('toggle')" />
     <span class="title">{{ todo.title }}</span>
-    <button @click="$emit('delete')" class="delete-btn">
+    <button class="delete-btn" @click="$emit('delete')">
       {{ $t("todo.delete") }}
     </button>
   </div>

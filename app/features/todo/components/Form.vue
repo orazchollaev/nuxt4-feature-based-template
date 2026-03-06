@@ -1,27 +1,22 @@
 <script setup lang="ts">
 interface Emits {
-  (e: "submit", title: string): void;
+  (e: "submit", title: string): void
 }
 
-const emit = defineEmits<Emits>();
-const title = ref("");
+const emit = defineEmits<Emits>()
+const title = ref("")
 
 const handleSubmit = () => {
   if (title.value.trim()) {
-    emit("submit", title.value.trim());
-    title.value = "";
+    emit("submit", title.value.trim())
+    title.value = ""
   }
-};
+}
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit" class="todo-form">
-    <input
-      v-model="title"
-      type="text"
-      :placeholder="$t('todo.inputPlaceholder')"
-      class="input"
-    />
+  <form class="todo-form" @submit.prevent="handleSubmit">
+    <input v-model="title" type="text" :placeholder="$t('todo.inputPlaceholder')" class="input" />
     <button type="submit" class="submit-btn">{{ $t("todo.add") }}</button>
   </form>
 </template>

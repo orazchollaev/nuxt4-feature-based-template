@@ -79,8 +79,8 @@ Everything inside these folders is **auto-imported globally**:
 Example:
 
 ```ts
-const store = useTodoStore();
-const { todos } = useTodo();
+const store = useTodoStore()
+const { todos } = useTodo()
 ```
 
 No manual imports are required.
@@ -94,7 +94,7 @@ Types are **not auto-imported**.
 You must import them manually:
 
 ```ts
-import type { Todo } from "~/features/todo/types/todo";
+import type { Todo } from "~/features/todo/types/todo"
 ```
 
 ---
@@ -132,7 +132,7 @@ Example:
 Usage:
 
 ```ts
-t("todo.add");
+t("todo.add")
 ```
 
 Locales work the same as standard Nuxt i18n files.

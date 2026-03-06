@@ -1,4 +1,4 @@
-import type { Todo, TodoFilter } from "../types/todo.type";
+import type { Todo, TodoFilterType } from "../types/todo.type"
 
 export const useTodoStore = defineStore("todo", () => {
   const todos = ref<Todo[]>([
@@ -14,28 +14,24 @@ export const useTodoStore = defineStore("todo", () => {
       completed: true,
       createdAt: new Date(),
     },
-  ]);
+  ])
 
-  const filter = ref<TodoFilter>("all");
-  const loading = ref(false);
+  const filter = ref<TodoFilterType>("all")
+  const loading = ref(false)
 
   const filteredTodos = computed(() => {
     if (filter.value === "active") {
-      return todos.value.filter((todo) => !todo.completed);
+      return todos.value.filter((todo) => !todo.completed)
     }
     if (filter.value === "completed") {
-      return todos.value.filter((todo) => todo.completed);
+      return todos.value.filter((todo) => todo.completed)
     }
-    return todos.value;
-  });
+    return todos.value
+  })
 
-  const activeCount = computed(
-    () => todos.value.filter((t) => !t.completed).length,
-  );
+  const activeCount = computed(() => todos.value.filter((t) => !t.completed).length)
 
-  const completedCount = computed(
-    () => todos.value.filter((t) => t.completed).length,
-  );
+  const completedCount = computed(() => todos.value.filter((t) => t.completed).length)
 
   const addTodo = (title: string) => {
     const newTodo: Todo = {
@@ -43,28 +39,28 @@ export const useTodoStore = defineStore("todo", () => {
       title,
       completed: false,
       createdAt: new Date(),
-    };
-    todos.value.push(newTodo);
-  };
+    }
+    todos.value.push(newTodo)
+  }
 
   const toggleTodo = (id: string) => {
-    const todo = todos.value.find((t) => t.id === id);
+    const todo = todos.value.find((t) => t.id === id)
     if (todo) {
-      todo.completed = !todo.completed;
+      todo.completed = !todo.completed
     }
-  };
+  }
 
   const deleteTodo = (id: string) => {
-    todos.value = todos.value.filter((t) => t.id !== id);
-  };
+    todos.value = todos.value.filter((t) => t.id !== id)
+  }
 
-  const setFilter = (newFilter: TodoFilter) => {
-    filter.value = newFilter;
-  };
+  const setFilter = (newFilter: TodoFilterType) => {
+    filter.value = newFilter
+  }
 
   const clearCompleted = () => {
-    todos.value = todos.value.filter((t) => !t.completed);
-  };
+    todos.value = todos.value.filter((t) => !t.completed)
+  }
 
   return {
     todos: filteredTodos,
@@ -77,5 +73,5 @@ export const useTodoStore = defineStore("todo", () => {
     deleteTodo,
     setFilter,
     clearCompleted,
-  };
-});
+  }
+})

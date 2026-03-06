@@ -65,4 +65,4 @@ export default defineI18nLocale(() => ({
       architecture: "Architecture basée sur les fonctionnalités",
     },
   },
-}));
+}))
