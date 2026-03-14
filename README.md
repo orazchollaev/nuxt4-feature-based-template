@@ -1,6 +1,6 @@
-# Nuxt 4 Feature-Based Starter
+# Nuxt Feature Starter
 
-This project is a **Nuxt 4 feature-based template** designed to help you
+This project is a **Nuxt feature-based template** designed to help you
 build scalable applications.
 
 Instead of organizing code by technical type (components, stores, pages, etc.),
