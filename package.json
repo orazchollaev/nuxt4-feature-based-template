@@ -1,8 +1,14 @@
 {
   "name": "nuxt-feature-starter",
-  "version": "1.0.0",
+  "description": "A clean and organized Nuxt starter template with feature-based architecture.",
+  "author": "Oraz Chollayev",
+  "license": "MIT",
   "type": "module",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orazchollaev/nuxt-feature-starter"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
