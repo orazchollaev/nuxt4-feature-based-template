@@ -2,11 +2,13 @@ export default defineI18nLocale(() => ({
   home: {
     hero: {
       title: "Nuxt 4 Feature-Based Starter",
-      subtitle: "Scalable architecture with integrated routing and hot reload",
+      subtitle:
+        "Scalable architecture with feature-based structure, auto routing, and per-feature i18n.",
       description: "Scalable Nuxt 4 architecture with feature-based structure and auto routing",
     },
 
     features: {
+      title: "Features",
       featureBased: {
         title: "Feature-Based",
         desc: "Organize code by business domain, not file type",
@@ -39,11 +41,12 @@ export default defineI18nLocale(() => ({
 
     quickStart: {
       title: "Quick Start",
-      hint: "Creates feature with components, stores, pages and routes",
+      hint: "Creates a feature with components, stores, pages and routes.",
     },
 
     structure: {
       title: "Structure",
+      desc: "All features live under app/features/. Each one is a self-contained module.",
     },
 
     usage: {
@@ -54,6 +57,7 @@ export default defineI18nLocale(() => ({
       types: "Types — explicit import for clarity",
     },
   },
+
   layout: {
     nav: {
       home: "Home",

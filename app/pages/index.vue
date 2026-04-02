@@ -1,6 +1,42 @@
 <script setup lang="ts">
 const { t } = useI18n()
 
+interface Feature {
+  icon: string
+  titleKey: string
+  descKey: string
+}
+
+const features: Feature[] = [
+  {
+    icon: "📦",
+    titleKey: "home.features.featureBased.title",
+    descKey: "home.features.featureBased.desc",
+  },
+  {
+    icon: "🧩",
+    titleKey: "home.features.componentPrefix.title",
+    descKey: "home.features.componentPrefix.desc",
+  },
+  {
+    icon: "🔥",
+    titleKey: "home.features.hotReload.title",
+    descKey: "home.features.hotReload.desc",
+  },
+  { icon: "🚀", titleKey: "home.features.typeSafe.title", descKey: "home.features.typeSafe.desc" },
+  {
+    icon: "📍",
+    titleKey: "home.features.autoRouting.title",
+    descKey: "home.features.autoRouting.desc",
+  },
+  {
+    icon: "⚡",
+    titleKey: "home.features.autoImports.title",
+    descKey: "home.features.autoImports.desc",
+  },
+  { icon: "🌍", titleKey: "home.features.i18n.title", descKey: "home.features.i18n.desc" },
+]
+
 watchEffect(() => {
   useSeoMeta({
     title: t("home.hero.title"),
@@ -10,244 +46,267 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="home-page">
+  <div class="doc-page">
     <header class="hero">
+      <span class="badge">template</span>
       <h1>{{ $t("home.hero.title") }}</h1>
-      <p class="subtitle">
-        {{ $t("home.hero.subtitle") }}
-      </p>
+      <p class="subtitle">{{ $t("home.hero.subtitle") }}</p>
     </header>
 
-    <div class="features">
-      <div class="feature-card">
-        <div class="icon">📦</div>
-        <h2>{{ $t("home.features.featureBased.title") }}</h2>
-        <p>{{ $t("home.features.featureBased.desc") }}</p>
+    <hr class="divider" />
+
+    <section class="section">
+      <p class="section-label">{{ $t("home.structure.title") }}</p>
+      <p class="section-body">{{ $t("home.structure.desc") }}</p>
+      <pre><code><span class="hl">app/features/blog/</span>
+  ├── <span class="hl">components/</span>   <span class="dim">→ &lt;FBlogCard /&gt;</span>
+  ├── <span class="hl">composables/</span>  <span class="dim">→ useBlog()</span>
+  ├── <span class="hl">stores/</span>       <span class="dim">→ useBlogStore()</span>
+  ├── <span class="hl">types/</span>        <span class="dim">→ import type { Post }</span>
+  ├── <span class="hl">pages/</span>        <span class="dim">→ /blog, /blog/create, /blog/:slug</span>
+  └── <span class="hl">locales/</span>      <span class="dim">→ t('blog.title')</span></code></pre>
+    </section>
+
+    <hr class="divider" />
+
+    <section class="section">
+      <p class="section-label">{{ $t("home.features.title") }}</p>
+      <div class="feature-grid">
+        <div v-for="feature in features" :key="feature.titleKey" class="feature-card">
+          <span class="f-icon">{{ feature.icon }}</span>
+          <div>
+            <p class="f-title">{{ $t(feature.titleKey) }}</p>
+            <p class="f-desc">{{ $t(feature.descKey) }}</p>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div class="feature-card">
-        <div class="icon">🧩</div>
-        <h2>{{ $t("home.features.componentPrefix.title") }}</h2>
-        <p>{{ $t("home.features.componentPrefix.desc") }}</p>
-      </div>
+    <hr class="divider" />
 
-      <div class="feature-card">
-        <div class="icon">🔥</div>
-        <h2>{{ $t("home.features.hotReload.title") }}</h2>
-        <p>{{ $t("home.features.hotReload.desc") }}</p>
-      </div>
+    <section class="section">
+      <p class="section-label">{{ $t("home.usage.title") }}</p>
 
-      <div class="feature-card">
-        <div class="icon">🚀</div>
-        <h2>{{ $t("home.features.typeSafe.title") }}</h2>
-        <p>{{ $t("home.features.typeSafe.desc") }}</p>
-      </div>
+      <p class="usage-label">{{ $t("home.usage.components") }}</p>
+      <pre><code><span class="hl">&lt;FTodoItem</span> :todo="todo" <span class="hl">/&gt;</span></code></pre>
 
-      <div class="feature-card">
-        <div class="icon">📍</div>
-        <h2>{{ $t("home.features.autoRouting.title") }}</h2>
-        <p>{{ $t("home.features.autoRouting.desc") }}</p>
-      </div>
+      <p class="usage-label">{{ $t("home.usage.composables") }}</p>
+      <pre><code><span class="hl">const</span> store = <span class="hl">useTodoStore()</span>
+<span class="hl">const</span> { todos } = <span class="hl">useTodo()</span></code></pre>
 
-      <div class="feature-card">
-        <div class="icon">⚡</div>
-        <h2>{{ $t("home.features.autoImports.title") }}</h2>
-        <p>{{ $t("home.features.autoImports.desc") }}</p>
-      </div>
+      <p class="usage-label">{{ $t("home.usage.i18n") }}</p>
+      <pre><code><span class="hl">t(</span><span class="dim">'todo.add'</span><span class="hl">)</span></code></pre>
 
-      <div class="feature-card">
-        <div class="icon">🌍</div>
-        <h2>{{ $t("home.features.i18n.title") }}</h2>
-        <p>{{ $t("home.features.i18n.desc") }}</p>
-      </div>
-    </div>
+      <p class="usage-label">{{ $t("home.usage.types") }}</p>
+      <pre><code><span class="hl">import type</span> { Todo } <span class="hl">from</span> <span class="dim">'~/features/todo/types/todo.types'</span></code></pre>
+    </section>
 
-    <div class="quick-start">
-      <h2>{{ $t("home.quickStart.title") }}</h2>
+    <hr class="divider" />
 
-      <div class="code-block">
+    <section class="section">
+      <p class="section-label">{{ $t("home.quickStart.title") }}</p>
+      <div class="cmd-block">
         <code>npm run create:feature blog</code>
       </div>
-
-      <p class="hint">
-        {{ $t("home.quickStart.hint") }}
-      </p>
-    </div>
-
-    <div class="structure">
-      <h2>{{ $t("home.structure.title") }}</h2>
-
-      <pre><code>app/features/blog/
-  ├── components/         → &lt;f-blog-card /&gt;
-  ├── composables/        → useBlog()
-  ├── stores/             → useBlogStore()
-  ├── utils/              → formatPost()
-  ├── types/              → import type { Post }
-  ├── locales/            → t('blog.title')
-  └── pages/
-      ├── index.vue       → /blog
-      ├── create.vue      → /blog/create
-      └── [slug].vue      → /blog/:slug</code></pre>
-    </div>
-
-    <div class="usage">
-      <h2>{{ $t("home.usage.title") }}</h2>
-
-      <div class="usage-group">
-        <p class="usage-label">
-          {{ $t("home.usage.components") }}
-        </p>
-        <div class="code-block">
-          <code>&lt;f-todo-item :todo="todo" /&gt;</code>
-        </div>
-      </div>
-
-      <div class="usage-group">
-        <p class="usage-label">
-          {{ $t("home.usage.composables") }}
-        </p>
-        <div class="code-block">
-          <code>
-            const store = useTodoStore()
-            <br />
-            const { todos } = useTodo()
-          </code>
-        </div>
-      </div>
-
-      <div class="usage-group">
-        <p class="usage-label">
-          {{ $t("home.usage.i18n") }}
-        </p>
-        <div class="code-block">
-          <code>
-            const { t } = useI18n()
-            <br />
-            t('blog.title')
-          </code>
-        </div>
-      </div>
-
-      <div class="usage-group">
-        <p class="usage-label">
-          {{ $t("home.usage.types") }}
-        </p>
-        <div class="code-block">
-          <code>import type { Todo } from '~/features/todo/types/todo.types'</code>
-        </div>
-      </div>
-    </div>
+      <p class="hint">{{ $t("home.quickStart.hint") }}</p>
+    </section>
   </div>
 </template>
 
 <style scoped>
-.home-page {
-  max-width: 1200px;
+.doc-page {
+  max-width: 900px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 3rem 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
+/* Hero */
 .hero {
-  text-align: center;
-  padding: 4rem 0 3rem;
+  padding-bottom: 2.5rem;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 4px;
+  background: rgba(0, 220, 130, 0.1);
+  color: #00dc82;
+  border: 1px solid rgba(0, 220, 130, 0.2);
+  margin-bottom: 1.25rem;
 }
 
 h1 {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 800;
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.25;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #00dc82 0%, #36e4da 50%, #0047e1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1.2;
+  color: #f1f1f1;
 }
 
 .subtitle {
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(15px, 2vw, 17px);
   color: #6b7280;
+  line-height: 1.7;
+  max-width: 560px;
 }
 
-.features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin: 3rem 0;
+/* Divider */
+.divider {
+  border: none;
+  border-top: 1px solid #1e1e1e;
+  margin: 2.25rem 0;
 }
 
-.feature-card {
-  padding: 2rem;
-  background: #151515;
-  border: 1px solid #2a2a2a;
-  border-radius: 12px;
-  transition: all 0.3s ease;
+/* Sections */
+.section {
+  margin-bottom: 0.5rem;
 }
 
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 220, 130, 0.06);
-  border-color: #00dc82;
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4b5563;
+  margin-bottom: 0.85rem;
 }
 
-.icon {
-  font-size: 2.5rem;
+.section-body {
+  font-size: 16px;
+  color: #6b7280;
+  line-height: 1.7;
   margin-bottom: 1rem;
 }
 
-.feature-card h2 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #e2e8f0;
-}
-
-.feature-card p {
-  font-size: 0.9rem;
-  color: #6b7280;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.code-block {
+/* Code blocks */
+pre {
   background: #111;
-  color: #00dc82;
+  border: 1px solid #1e1e1e;
+  border-radius: 10px;
   padding: 1.25rem 1.5rem;
-  border-radius: 8px;
-  border: 1px solid #1e1e1e;
-  margin: 0.75rem auto;
-  max-width: 600px;
-  font-family: monospace;
-  font-size: 0.95rem;
+  font-size: 14px;
+  line-height: 1.9;
   overflow-x: auto;
-  text-align: left;
-  line-height: 1.7;
+  margin: 0.5rem 0 1.5rem;
+  -webkit-overflow-scrolling: touch;
 }
 
-.quick-start,
-.structure {
-  margin: 4rem 0;
-  text-align: center;
+pre code {
+  font-family: "SF Mono", "Fira Code", "Fira Mono", monospace;
+  background: none;
+  border: none;
+  padding: 0;
+  color: #6b7280;
 }
 
-.usage {
-  margin: 4rem auto;
-  max-width: 600px;
+.hl {
+  color: #00dc82;
+}
+.dim {
+  color: #374151;
 }
 
-.structure pre {
+/* Feature grid */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+  margin: 0.75rem 0;
+}
+
+.feature-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  background: #151515;
+  border: 1px solid #1e1e1e;
+  border-radius: 10px;
+  transition: border-color 0.2s ease;
+}
+
+.feature-card:hover {
+  border-color: rgba(0, 220, 130, 0.3);
+}
+
+.f-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.f-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 4px;
+}
+
+.f-desc {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.55;
+}
+
+/* Usage */
+.usage-label {
+  font-size: 14px;
+  color: #4b5563;
+  margin: 1.25rem 0 0.35rem;
+}
+
+/* Quick start */
+.cmd-block {
+  display: inline-flex;
+  align-items: center;
   background: #111;
   border: 1px solid #1e1e1e;
-  border-radius: 8px;
-  padding: 2rem;
-  text-align: left;
-  max-width: 600px;
-  margin: 0 auto;
-  overflow-x: auto;
+  border-radius: 10px;
+  padding: 0.8rem 1.25rem;
+  margin: 0.6rem 0;
 }
 
-.structure code {
+.cmd-block code {
+  font-family: "SF Mono", "Fira Code", monospace;
+  font-size: 15px;
   color: #00dc82;
-  font-size: 0.875rem;
-  line-height: 1.9;
+}
+
+.hint {
+  font-size: 15px;
+  color: #4b5563;
+  margin-top: 0.75rem;
+  line-height: 1.65;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .doc-page {
+    padding: 2rem 1.25rem;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  pre {
+    font-size: 13px;
+    padding: 1rem 1rem;
+    border-radius: 8px;
+  }
+
+  .cmd-block {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .subtitle {
+    max-width: 100%;
+  }
 }
 </style>

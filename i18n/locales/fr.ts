@@ -2,19 +2,21 @@ export default defineI18nLocale(() => ({
   home: {
     hero: {
       title: "Starter Nuxt 4 basé sur les fonctionnalités",
-      subtitle: "Architecture évolutive avec routage intégré et hot reload",
+      subtitle:
+        "Architecture évolutive avec structure orientée fonctionnalités, routage automatique et i18n par feature.",
       description:
         "Architecture Nuxt 4 évolutive avec structure orientée fonctionnalités et routage automatique",
     },
 
     features: {
+      title: "Fonctionnalités",
       featureBased: {
         title: "Basé sur les fonctionnalités",
         desc: "Organisez le code par domaine métier et non par type de fichier",
       },
       componentPrefix: {
         title: "Préfixe des composants",
-        desc: "Composants auto-importés avec préfixe",
+        desc: "Composants auto-importés avec préfixe de feature",
       },
       hotReload: {
         title: "Hot Reload",
@@ -40,11 +42,12 @@ export default defineI18nLocale(() => ({
 
     quickStart: {
       title: "Démarrage rapide",
-      hint: "Crée une feature avec composants, stores, pages et routes",
+      hint: "Crée une feature avec composants, stores, pages et routes.",
     },
 
     structure: {
       title: "Structure",
+      desc: "Toutes les features se trouvent dans app/features/. Chacune est un module autonome.",
     },
 
     usage: {
@@ -55,6 +58,7 @@ export default defineI18nLocale(() => ({
       types: "Types — import explicite pour plus de clarté",
     },
   },
+
   layout: {
     nav: {
       home: "Accueil",

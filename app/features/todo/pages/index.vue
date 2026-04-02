@@ -56,7 +56,7 @@ const setFilter = (newFilter: TodoFilterType) => store.setFilter(newFilter)
 
 <style scoped>
 .todo-page {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 2rem;
 }

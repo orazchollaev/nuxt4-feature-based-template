@@ -1,14 +1,10 @@
-<script setup lang="ts">
-const { version } = useAppConfig()
-</script>
-
 <template>
   <footer class="footer">
     <div class="container">
       <p>
         {{ $t("layout.footer.builtWith") }}
         <span class="heart">♥</span>
-        OrazChollaev ({{ version }})
+        OrazChollaev
       </p>
     </div>
   </footer>
