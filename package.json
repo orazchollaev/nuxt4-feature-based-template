@@ -19,7 +19,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@nuxtjs/i18n": "^10.2.4",
@@ -36,8 +37,14 @@
     "eslint": "^10.1.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "prettier": "^3.8.1",
     "typescript": "^6.0.2",
     "vue-tsc": "^3.2.6"
+  },
+  "lint-staged": {
+    "*.{ts,vue,js}": "eslint --fix",
+    "*.{json,css,scss,md}": "prettier --write"
   }
 }
