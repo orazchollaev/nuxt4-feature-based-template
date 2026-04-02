@@ -26,6 +26,9 @@ importers:
       vue-router:
         specifier: ^5.0.4
         version: 5.0.4(@vue/compiler-sfc@3.5.31)(pinia@3.0.4(typescript@6.0.2)(vue@3.5.31(typescript@6.0.2)))(vue@3.5.31(typescript@6.0.2))
+      vue-shortcut-manager:
+        specifier: ^1.0.7
+        version: 1.0.7(vue@3.5.31(typescript@6.0.2))
     devDependencies:
       '@nuxt/eslint':
         specifier: ^1.15.2
@@ -4549,6 +4552,11 @@ packages:
         optional: true
       pinia:
         optional: true
+
+  vue-shortcut-manager@1.0.7:
+    resolution: {integrity: sha512-ZKYhFKUYbkmvIkFGEm1rdT2upEkCRuqnfPcswYAi7PkCui02GVH0n+ZQTR4sISCRfR+NKHBSJYJVgAM+xWf1Zw==}
+    peerDependencies:
+      vue: ^3.0.0
 
   vue-tsc@3.2.6:
     resolution: {integrity: sha512-gYW/kWI0XrwGzd0PKc7tVB/qpdeAkIZLNZb10/InizkQjHjnT8weZ/vBarZoj4kHKbUTZT/bAVgoOr8x4NsQ/Q==}
@@ -9405,6 +9413,10 @@ snapshots:
     optionalDependencies:
       '@vue/compiler-sfc': 3.5.31
       pinia: 3.0.4(typescript@6.0.2)(vue@3.5.31(typescript@6.0.2))
+
+  vue-shortcut-manager@1.0.7(vue@3.5.31(typescript@6.0.2)):
+    dependencies:
+      vue: 3.5.31(typescript@6.0.2)
 
   vue-tsc@3.2.6(typescript@6.0.2):
     dependencies:

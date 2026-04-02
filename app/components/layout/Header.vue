@@ -13,16 +13,18 @@ const toggleLocale = async () => {
   <header class="header">
     <div class="container">
       <NuxtLink to="https://github.com/orazchollaev" target="_blank" class="logo">
-        OrazChollaev
+        Nuxt Feature Starter
       </NuxtLink>
 
       <nav class="nav">
         <NuxtLink to="/" class="nav-link">
           {{ $t("layout.nav.home") }}
+          <span class="shortcut">Shift+H</span>
         </NuxtLink>
 
         <NuxtLink to="/todo" class="nav-link">
           {{ $t("layout.nav.todo") }}
+          <span class="shortcut">Shift+T</span>
         </NuxtLink>
 
         <button class="lang-toggle" @click="toggleLocale">
@@ -112,5 +114,15 @@ const toggleLocale = async () => {
 .lang-toggle:hover {
   border-color: #00dc82;
   color: #00dc82;
+}
+
+.shortcut {
+  font-size: 0.5rem;
+  font-family: sans-serif;
+  letter-spacing: 0.8px;
+  color: #6b7280;
+  position: absolute;
+  top: -4px;
+  left: 80%;
 }
 </style>

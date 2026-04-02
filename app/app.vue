@@ -1,5 +1,12 @@
 <script setup lang="ts">
-// App layout wrapper
+import { useShortcuts } from "vue-shortcut-manager"
+
+const router = useRouter()
+
+useShortcuts([
+  { key: "shift+h", description: "Go to Home", handler: () => router.push("/") },
+  { key: "shift+t", description: "Go to Todo", handler: () => router.push("/todo") },
+])
 </script>
 
 <template>
