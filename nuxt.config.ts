@@ -46,7 +46,6 @@ export default defineNuxtConfig({
     ],
 
     langDir: "locales",
-    lazy: true,
 
     detectBrowserLanguage: {
       useCookie: true,
@@ -69,5 +68,11 @@ export default defineNuxtConfig({
 
   hooks: {
     "pages:extend": featureBasedPagesHook,
+  },
+
+  vite: {
+    optimizeDeps: {
+      include: ["vue-shortcut-manager"],
+    },
   },
 })

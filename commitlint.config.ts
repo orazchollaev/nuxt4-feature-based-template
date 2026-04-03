@@ -5,17 +5,17 @@ const config = {
       2,
       "always",
       [
-        "feat", // Yeni özellik
-        "fix", // Bug düzeltme
-        "docs", // Dokümantasyon
-        "style", // Kod formatı (mantık değişikliği yok)
-        "refactor", // Refactor
-        "perf", // Performans iyileştirme
-        "test", // Test ekleme/düzenleme
-        "build", // Build sistemi
-        "ci", // CI konfigürasyonu
-        "chore", // Genel bakım
-        "revert", // Revert
+        "feat", // New feature
+        "fix", // Bug fix
+        "docs", // Documentation
+        "style", // Code style (no logic changes)
+        "refactor", // Code refactoring
+        "perf", // Performance improvements
+        "test", // Adding/updating tests
+        "build", // Build system
+        "ci", // CI configuration
+        "chore", // General maintenance
+        "revert", // Revert changes
       ],
     ],
     "type-case": [2, "always", "lower-case"],
