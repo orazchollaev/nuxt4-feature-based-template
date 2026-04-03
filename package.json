@@ -32,6 +32,8 @@
     "vue-shortcut-manager": "^1.0.7"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
     "@nuxt/eslint": "^1.15.2",
     "@types/node": "^25.5.0",
     "eslint": "^10.1.0",
