@@ -20,7 +20,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "@nuxtjs/i18n": "^10.2.4",
@@ -44,7 +44,12 @@
     "vue-tsc": "^3.2.6"
   },
   "lint-staged": {
-    "*.{ts,vue,js}": "eslint --fix",
-    "*.{json,css,scss,md}": "prettier --write"
+    "*.{js,ts,vue}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,scss,json,md}": [
+      "prettier --write"
+    ]
   }
 }
