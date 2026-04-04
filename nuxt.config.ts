@@ -34,6 +34,7 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
     "@nuxt/eslint",
     "@pinia/nuxt",
+    "@vercel/analytics",
   ],
 
   i18n: {
