@@ -23,18 +23,18 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@nuxtjs/i18n": "^10.2.4",
+    "@nuxtjs/i18n": "^10.3.0",
     "@pinia/nuxt": "^0.11.3",
     "@vercel/analytics": "^2.0.1",
-    "nuxt": "^4.4.2",
+    "nuxt": "^4.4.4",
     "pinia": "^3.0.4",
     "vue": "^3.5.33",
     "vue-router": "^5.0.6",
-    "vue-shortcut-manager": "^1.0.7"
+    "vue-shortcut-manager": "^1.0.8"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.5.0",
-    "@commitlint/config-conventional": "^20.5.0",
+    "@commitlint/cli": "^20.5.3",
+    "@commitlint/config-conventional": "^20.5.3",
     "@nuxt/eslint": "^1.15.2",
     "@types/node": "^25.6.0",
     "eslint": "^10.2.1",
