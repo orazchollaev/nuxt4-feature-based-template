@@ -148,7 +148,7 @@ if (flags.withComponent) {
 .${featureName}-empty {
   padding: 2rem;
   text-align: center;
-  color: #6b7280;
+  color: var(--text-muted);
   font-size: 0.95rem;
 }
 </style>

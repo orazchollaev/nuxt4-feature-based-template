@@ -72,7 +72,7 @@ h1 {
   font-size: 2rem;
   font-weight: 700;
   margin: 0;
-  color: #e2e8f0;
+  color: var(--text-sub);
 }
 
 .filters {
@@ -82,36 +82,36 @@ h1 {
 
 .filter-btn {
   padding: 0.4rem 1rem;
-  background: #151515;
-  border: 1px solid #2a2a2a;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 6px;
   cursor: pointer;
   text-transform: capitalize;
-  color: #6b7280;
+  color: var(--text-muted);
   font-size: 0.875rem;
   transition: all 0.2s;
 }
 
 .filter-btn:hover {
-  border-color: #00dc82;
-  color: #e2e8f0;
+  border-color: var(--accent);
+  color: var(--text-sub);
 }
 
 .filter-btn.active {
-  background: #00dc82;
-  color: #0f0f0f;
-  border-color: #00dc82;
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
   font-weight: 600;
 }
 
 .stats {
   margin-top: 1.5rem;
   padding: 0.875rem 1rem;
-  background: #151515;
-  border: 1px solid #2a2a2a;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 8px;
   text-align: center;
-  color: #4b5563;
+  color: var(--text-dim);
   font-size: 0.875rem;
 }
 </style>

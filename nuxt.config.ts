@@ -33,6 +33,7 @@ export default defineNuxtConfig({
 
     "@nuxtjs/i18n",
     "@nuxt/eslint",
+    "@nuxtjs/color-mode",
     "@pinia/nuxt",
     "@vercel/analytics",
   ],
@@ -75,5 +76,11 @@ export default defineNuxtConfig({
     optimizeDeps: {
       include: ["vue-shortcut-manager"],
     },
+  },
+
+  colorMode: {
+    classSuffix: "",
+    preference: "dark",
+    fallback: "dark",
   },
 })

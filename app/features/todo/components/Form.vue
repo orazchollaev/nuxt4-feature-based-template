@@ -31,27 +31,27 @@ const handleSubmit = () => {
 .input {
   flex: 1;
   padding: 0.75rem 1rem;
-  background: #111;
-  border: 1px solid #2a2a2a;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 0.95rem;
-  color: #e2e8f0;
+  color: var(--text-sub);
   transition: border-color 0.2s;
 }
 
 .input::placeholder {
-  color: #4b5563;
+  color: var(--text-dim);
 }
 
 .input:focus {
   outline: none;
-  border-color: #00dc82;
+  border-color: var(--accent);
 }
 
 .submit-btn {
   padding: 0.75rem 1.5rem;
-  background: #00dc82;
-  color: #0f0f0f;
+  background: var(--accent);
+  color: var(--accent-text);
   border: none;
   border-radius: 8px;
   font-size: 0.95rem;

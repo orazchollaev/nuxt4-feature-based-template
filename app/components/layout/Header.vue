@@ -1,11 +1,15 @@
 <script setup lang="ts">
 const { locale, locales, setLocale } = useI18n()
+const colorMode = useColorMode()
 
 const toggleLocale = async () => {
   const available = locales.value.map((l) => (typeof l === "string" ? l : l.code))
-
   const next = available.find((l) => l !== locale.value)
   if (next) await setLocale(next)
+}
+
+const toggleColorMode = () => {
+  colorMode.preference = colorMode.value === "dark" ? "light" : "dark"
 }
 </script>
 
@@ -25,9 +29,19 @@ const toggleLocale = async () => {
           {{ $t("layout.nav.todo") }}
         </NuxtLink>
 
-        <button class="lang-toggle" @click="toggleLocale">
-          {{ locale.toUpperCase() }}
-        </button>
+        <div class="controls">
+          <button
+            class="toggle"
+            :title="colorMode.value === 'dark' ? 'Light mode' : 'Dark mode'"
+            @click="toggleColorMode"
+          >
+            <IconDarkMode v-if="colorMode.value == 'dark'" />
+            <IconLightMode v-else />
+          </button>
+          <button class="toggle" @click="toggleLocale">
+            {{ locale.toUpperCase() }}
+          </button>
+        </div>
       </nav>
     </div>
   </header>
@@ -35,8 +49,8 @@ const toggleLocale = async () => {
 
 <style scoped>
 .header {
-  background: #0f0f0f;
-  border-bottom: 1px solid #2a2a2a;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -55,14 +69,14 @@ const toggleLocale = async () => {
 .logo {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #f1f1f1;
+  color: var(--text);
   text-decoration: none;
   letter-spacing: -0.02em;
   transition: color 0.2s;
 }
 
 .logo:hover {
-  color: #00dc82;
+  color: var(--accent);
 }
 
 .nav {
@@ -72,7 +86,7 @@ const toggleLocale = async () => {
 }
 
 .nav-link {
-  color: #6b7280;
+  color: var(--text-muted);
   text-decoration: none;
   font-weight: 500;
   font-size: 0.95rem;
@@ -81,11 +95,11 @@ const toggleLocale = async () => {
 }
 
 .nav-link:hover {
-  color: #f1f1f1;
+  color: var(--text);
 }
 
 .nav-link.router-link-active {
-  color: #00dc82;
+  color: var(--accent);
 }
 
 .nav-link.router-link-active::after {
@@ -95,13 +109,19 @@ const toggleLocale = async () => {
   left: 0;
   right: 0;
   height: 2px;
-  background: #00dc82;
+  background: var(--accent);
 }
 
-.lang-toggle {
+.controls {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.toggle {
+  display: flex;
   background: transparent;
-  border: 1px solid #2a2a2a;
-  color: #f1f1f1;
+  border: 1px solid var(--border);
+  color: var(--text);
   padding: 0.4rem 0.75rem;
   border-radius: 6px;
   cursor: pointer;
@@ -109,8 +129,8 @@ const toggleLocale = async () => {
   transition: all 0.2s;
 }
 
-.lang-toggle:hover {
-  border-color: #00dc82;
-  color: #00dc82;
+.toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 </style>

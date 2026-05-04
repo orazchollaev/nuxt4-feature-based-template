@@ -12,9 +12,9 @@
 .todo-empty {
   padding: 3rem 2rem;
   text-align: center;
-  color: #4b5563;
-  background: #111;
-  border: 2px dashed #2a2a2a;
+  color: var(--text-dim);
+  background: var(--bg-surface);
+  border: 2px dashed var(--border);
   border-radius: 8px;
   font-size: 0.95rem;
 }

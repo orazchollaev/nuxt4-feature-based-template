@@ -12,8 +12,8 @@
 
 <style scoped>
 .footer {
-  background: #0f0f0f;
-  border-top: 1px solid #2a2a2a;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
 }
 
 .container {
@@ -25,7 +25,7 @@
 
 .footer p {
   margin: 0.5rem 0;
-  color: #6b7280;
+  color: var(--text-muted);
 }
 
 .heart {

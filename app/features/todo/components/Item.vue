@@ -29,40 +29,40 @@ defineEmits<Emits>()
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.25rem;
-  background: #151515;
-  border: 1px solid #2a2a2a;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 8px;
   transition: all 0.2s;
 }
 
 .todo-item:hover {
-  border-color: #3a3a3a;
+  border-color: var(--border-hover);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .todo-item.completed .title {
   text-decoration: line-through;
-  color: #4b5563;
+  color: var(--text-dim);
 }
 
 .checkbox {
   width: 1.1rem;
   height: 1.1rem;
   cursor: pointer;
-  accent-color: #00dc82;
+  accent-color: var(--accent);
 }
 
 .title {
   flex: 1;
   font-size: 0.95rem;
-  color: #e2e8f0;
+  color: var(--text-sub);
 }
 
 .delete-btn {
   padding: 0.35rem 0.875rem;
   background: transparent;
-  color: #6b7280;
-  border: 1px solid #2a2a2a;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.8rem;

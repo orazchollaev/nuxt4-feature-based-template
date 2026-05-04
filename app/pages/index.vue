@@ -135,7 +135,7 @@ watchEffect(() => {
   padding: 4px 12px;
   border-radius: 4px;
   background: rgba(0, 220, 130, 0.1);
-  color: #00dc82;
+  color: var(--accent);
   border: 1px solid rgba(0, 220, 130, 0.2);
   margin-bottom: 1.25rem;
 }
@@ -145,12 +145,12 @@ h1 {
   font-weight: 700;
   line-height: 1.25;
   margin-bottom: 1rem;
-  color: #f1f1f1;
+  color: var(--text);
 }
 
 .subtitle {
   font-size: clamp(15px, 2vw, 17px);
-  color: #6b7280;
+  color: var(--text-muted);
   line-height: 1.7;
   max-width: 560px;
 }
@@ -172,20 +172,20 @@ h1 {
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #4b5563;
+  color: var(--text-dim);
   margin-bottom: 0.85rem;
 }
 
 .section-body {
   font-size: 16px;
-  color: #6b7280;
+  color: var(--text-muted);
   line-height: 1.7;
   margin-bottom: 1rem;
 }
 
 /* Code blocks */
 pre {
-  background: #111;
+  background: var(--bg-surface);
   border: 1px solid #1e1e1e;
   border-radius: 10px;
   padding: 1.25rem 1.5rem;
@@ -201,11 +201,11 @@ pre code {
   background: none;
   border: none;
   padding: 0;
-  color: #6b7280;
+  color: var(--text-muted);
 }
 
 .hl {
-  color: #00dc82;
+  color: var(--accent);
 }
 .dim {
   color: #374151;
@@ -224,7 +224,7 @@ pre code {
   align-items: flex-start;
   gap: 14px;
   padding: 16px 18px;
-  background: #151515;
+  background: var(--bg-card);
   border: 1px solid #1e1e1e;
   border-radius: 10px;
   transition: border-color 0.2s ease;
@@ -243,20 +243,20 @@ pre code {
 .f-title {
   font-size: 15px;
   font-weight: 600;
-  color: #e2e8f0;
+  color: var(--text-sub);
   margin-bottom: 4px;
 }
 
 .f-desc {
   font-size: 13px;
-  color: #6b7280;
+  color: var(--text-muted);
   line-height: 1.55;
 }
 
 /* Usage */
 .usage-label {
   font-size: 14px;
-  color: #4b5563;
+  color: var(--text-dim);
   margin: 1.25rem 0 0.35rem;
 }
 
@@ -264,7 +264,7 @@ pre code {
 .cmd-block {
   display: inline-flex;
   align-items: center;
-  background: #111;
+  background: var(--bg-surface);
   border: 1px solid #1e1e1e;
   border-radius: 10px;
   padding: 0.8rem 1.25rem;
@@ -274,12 +274,12 @@ pre code {
 .cmd-block code {
   font-family: "SF Mono", "Fira Code", monospace;
   font-size: 15px;
-  color: #00dc82;
+  color: var(--accent);
 }
 
 .hint {
   font-size: 15px;
-  color: #4b5563;
+  color: var(--text-dim);
   margin-top: 0.75rem;
   line-height: 1.65;
 }
